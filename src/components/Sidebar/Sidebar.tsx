@@ -27,7 +27,7 @@ const Sidebar: FC = () => {
   };
 
   return (
-    <div className="max-w-[210px] w-[100%] h-[100%] flex flex-col">
+    <div className="max-w-[20%] w-[100%] h-[100%] flex flex-col">
       <UserMain userName="sosiskaKiller" id="12123124" />
       <Search />
       <UsersList />

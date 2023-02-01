@@ -5,7 +5,7 @@ import Header from './Header';
 
 const Main: FC = () => {
   return (
-    <div className="w-[100%] h-[100%] flex flex-col">
+    <div className="max-w-[80%] w-[100%] h-[100%] flex flex-col">
       <Header />
       <Field />
 
