@@ -6,9 +6,12 @@ import Cookies from 'universal-cookie';
 import { useNavigate } from 'react-router-dom';
 import { Cookie } from 'universal-cookie/cjs/types';
 import { updateUserInfo } from './store/userInfo';
+import { useStore } from 'effector-react';
+import { $dialogId, setDialogId } from './store/dialogId';
 
 const App: FC = () => {
   const navigate = useNavigate();
+  const dialogId = useStore($dialogId);
 
   React.useEffect(() => {
     const cookies: Cookie = new Cookies();
@@ -18,7 +21,7 @@ const App: FC = () => {
     } else {
       const userInfo = JSON.parse(localStorage.getItem("userInfo") || "{}");
 
-      navigate(`/${userInfo.userId}`);
+      navigate(`/${userInfo.userId}?${dialogId}`);
     }
   }, [navigate]);
 
@@ -43,7 +46,7 @@ const App: FC = () => {
   return (
     <Routes>
       <Route path="/auth" element={<AuthPage />} />
-      <Route path="/:id" element={<MainPage />} />
+      <Route path="/:id?/:dialog" element={<MainPage />} />
     </Routes>
   );
 }
