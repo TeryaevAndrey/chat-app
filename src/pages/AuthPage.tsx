@@ -1,15 +1,19 @@
 import axios, { AxiosResponse } from "axios";
+import { useStore } from "effector-react";
 import React, { FC } from "react";
-import { Navigate } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
 import Cookies from "universal-cookie";
 import { Cookie } from "universal-cookie/cjs/types";
 import TextField from "../components/Auth/TextField";
 import Btn from "../components/Btn";
+import { $userInfo, updateUserInfo } from "../store/userInfo";
 
 const AuthPage: FC = () => {
   const cookies: Cookie = new Cookies();
   const [name, setName] = React.useState<string>("");
   const [password, setPassword] = React.useState<string>("");
+  const userInfo = useStore($userInfo);
+  const navigate = useNavigate();
 
   const onChangeName = (e: React.ChangeEvent<HTMLInputElement>) => {
     setName(e.target.value);
@@ -18,6 +22,12 @@ const AuthPage: FC = () => {
   const onChangePassword = (e: React.ChangeEvent<HTMLInputElement>) => {
     setPassword(e.target.value);
   };
+
+  React.useEffect(() => {
+    if(userInfo.userId !== undefined) {
+      navigate(`/${userInfo.userId}`);
+    }
+  }, [userInfo, navigate]);
 
   const formHandlerReg = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
@@ -37,6 +47,12 @@ const AuthPage: FC = () => {
               userId: res.data.userInfo.userId,
             })
           );
+
+          await updateUserInfo({
+            token: res.data.token,
+            userId: res.data.userId,
+            name: res.data.name
+          });
         });
 
       alert("Успешно");
@@ -65,6 +81,12 @@ const AuthPage: FC = () => {
               userId: res.data.userId,
             })
           );
+
+          await updateUserInfo({
+            token: res.data.token,
+            userId: res.data.userId,
+            name: res.data.name
+          });
         });
 
       alert("Успешно");

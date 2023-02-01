@@ -2,6 +2,7 @@ import React, {FC} from 'react';
 import { useNavigate } from 'react-router-dom';
 import Cookies from 'universal-cookie/cjs/Cookies';
 import { Cookie } from 'universal-cookie/cjs/types';
+import { updateUserInfo } from '../../store/userInfo';
 import UserMain from './UserMain/UserMain';
 import UsersList from './UsersList/UsersList';
 
@@ -14,6 +15,12 @@ const Sidebar: FC = () => {
     await cookies.remove("token");
 
     localStorage.removeItem("userInfo");
+
+    updateUserInfo({
+      token: undefined,
+      userId: undefined,
+      name: undefined
+    });
 
     navigate("/auth");
   }
