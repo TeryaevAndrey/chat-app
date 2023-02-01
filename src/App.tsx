@@ -5,6 +5,7 @@ import MainPage from './pages/MainPage';
 import Cookies from 'universal-cookie';
 import { useNavigate } from 'react-router-dom';
 import { Cookie } from 'universal-cookie/cjs/types';
+import { updateUserInfo } from './store/userInfo';
 
 const App: FC = () => {
   const navigate = useNavigate();
@@ -20,6 +21,24 @@ const App: FC = () => {
       navigate(`/${userInfo.userId}`);
     }
   }, [navigate]);
+
+  React.useEffect(() => {
+    const localStorageUserInfo = JSON.parse(localStorage.getItem("userInfo") || "{}");
+    
+    if(localStorageUserInfo) {
+      updateUserInfo({
+        token: localStorageUserInfo.token,
+        userId: localStorageUserInfo.userId,
+        name: localStorageUserInfo.name
+      });
+    } else {
+      updateUserInfo({
+        token: undefined,
+        userId: undefined,
+        name: undefined
+      });
+    }
+  }, []);
 
   return (
     <Routes>

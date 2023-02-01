@@ -17,7 +17,7 @@ const UserMain: FC<IUserMain> = ({userName, id}) => {
         <span className="inline-block text-[14px] font-semibold">
           {userName}
         </span>
-        <span className="inline-block text-[12px]">{id}</span>
+        <p className="tooltip relative inline-block text-[12px]">{id}</p>
       </div>
     </div>
   );

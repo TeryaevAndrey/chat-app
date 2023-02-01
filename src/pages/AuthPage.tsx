@@ -33,7 +33,7 @@ const AuthPage: FC = () => {
     e.preventDefault();
     try {
       await axios
-        .post("http://localhost:4000/api/auth/reg", {
+        .post(`${process.env.REACT_APP_PROXY}/api/auth/reg`, {
           name,
           password,
         })
@@ -48,7 +48,7 @@ const AuthPage: FC = () => {
             })
           );
 
-          await updateUserInfo({
+          updateUserInfo({
             token: res.data.userInfo.token,
             userId: res.data.userInfo.userId,
             name: res.data.userInfo.name
@@ -67,7 +67,7 @@ const AuthPage: FC = () => {
     e.preventDefault();
     try {
       await axios
-        .post(`http://localhost:4000/api/auth/entrance`, {
+        .post(`${process.env.REACT_APP_PROXY}/api/auth/entrance`, {
           name,
           password,
         })
@@ -82,7 +82,7 @@ const AuthPage: FC = () => {
             })
           );
 
-          await updateUserInfo({
+          updateUserInfo({
             token: res.data.token,
             userId: res.data.userId,
             name: res.data.name
