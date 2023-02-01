@@ -1,6 +1,6 @@
 import {createEvent, createStore} from "effector";
 
-export const updateUserInfo = createEvent<any>();
+export const updateUserInfo = createEvent<IUserInfo>();
 
 interface IUserInfo {
   token: string | undefined;
