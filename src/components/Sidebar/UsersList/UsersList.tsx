@@ -5,9 +5,11 @@ import { $searchInfo } from "../../../store/search";
 import User from "./User/User";
 import config from "config";
 import { IUser } from "../../../types";
+import { $userInfo } from "../../../store/userInfo";
 
 const UsersList = () => {
   const searchInfo = useStore($searchInfo);
+  const userInfo = useStore($userInfo);
   const [user, setUser] = React.useState<IUser | undefined>(undefined);
   const [allUsers, setAllUsers] = React.useState<IUser[] | undefined>(
     undefined
@@ -43,10 +45,22 @@ const UsersList = () => {
       });
   }, []);
 
+  const createNewDialog = async (comradeId: string) => {
+    await axios.post(`${process.env.REACT_APP_PROXY}/api/dialog/new-dialog`, {
+      comradeId
+    }, {
+      headers: {
+        Authorization: `Bearer ${userInfo.token}`
+      }
+    });
+    
+    alert("OK");
+  }
+
   return (
     <div className="flex flex-col w-[100%] mt-[25px] overflow-auto mb-[50px]">
       {user ? (
-        <User userName={user && user.name} />
+        <User userName={user && user.name} onClick={() => createNewDialog(user._id)} />
       ) : (
         searchInfo.isFocus &&
         allUsers?.map((user) => {
