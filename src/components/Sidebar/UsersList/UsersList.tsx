@@ -109,7 +109,7 @@ const UsersList = () => {
         })
       ) : (
         myDialogs.map((dialog) => {
-          return <User userName={userInfo.userId === dialog.mainUserId ? dialog.comradeName : dialog.mainUserName} />
+          return <User key={dialog._id} userName={userInfo.userId === dialog.mainUserId ? dialog.comradeName : dialog.mainUserName} />
         })
       )}
     </div>
