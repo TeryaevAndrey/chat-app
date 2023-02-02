@@ -8,10 +8,11 @@ import { IDialog, IUser } from "../../../types";
 import { $userInfo } from "../../../store/userInfo";
 import { useNavigate } from "react-router-dom";
 import Cookies, { Cookie } from "universal-cookie";
-import { setDialogId } from "../../../store/dialogId";
+import { $dialogId, setDialogId } from "../../../store/dialogId";
 
 const UsersList = () => {
   const navigate = useNavigate();
+  const dialogId = useStore($dialogId);
   const userInfo = useStore($userInfo);
   const searchInfo = useStore($searchInfo);
   const [user, setUser] = React.useState<IUser | undefined>(undefined);
@@ -64,7 +65,7 @@ const UsersList = () => {
           setMyDialogs(res.data.dialogs);
         }
       });
-  }, []);
+  }, [dialogId]);
 
   const createNewDialog = async (comradeId: string, comradeName: string) => {
     const cookies: Cookie = new Cookies();
@@ -74,7 +75,7 @@ const UsersList = () => {
         `${process.env.REACT_APP_PROXY}/api/dialog/new-dialog`,
         {
           comradeId,
-          comradeName
+          comradeName,
         },
         {
           headers: {
@@ -84,6 +85,8 @@ const UsersList = () => {
       )
       .then((res: AxiosResponse) => {
         setDialogId(res.data.dialogId);
+
+        console.log(res);
       })
       .catch((err) => {
         console.log(err);
@@ -109,7 +112,17 @@ const UsersList = () => {
         })
       ) : (
         myDialogs.map((dialog) => {
-          return <User key={dialog._id} userName={userInfo.userId === dialog.mainUserId ? dialog.comradeName : dialog.mainUserName} />
+          return (
+            <User
+              key={dialog._id}
+              userName={
+                userInfo.userId === dialog.mainUserId
+                  ? dialog.comradeName
+                  : dialog.mainUserName
+              }
+              onClick={() => createNewDialog(dialog.comradeId || dialog.mainUserId, dialog.mainUserName || dialog.comradeName)}
+            />
+          );
         })
       )}
     </div>
