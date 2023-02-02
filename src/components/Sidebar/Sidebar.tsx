@@ -20,7 +20,6 @@ const Sidebar: FC = () => {
     localStorage.removeItem("userInfo");
 
     updateUserInfo({
-      token: undefined,
       userId: undefined,
       name: undefined,
     });

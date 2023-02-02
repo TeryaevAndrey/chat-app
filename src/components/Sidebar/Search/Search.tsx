@@ -22,7 +22,7 @@ const Search: FC = () => {
       <div className="bg-[#fff] min-h-[40px] rounded-[15px] flex items-center px-[5px]">
         <img
           className="w-[20px] h-[20px]"
-          src="./img/search.svg"
+          src="/img/search.svg"
           alt="search"
         />
         <input

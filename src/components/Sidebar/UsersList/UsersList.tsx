@@ -4,16 +4,21 @@ import React from "react";
 import { $searchInfo } from "../../../store/search";
 import User from "./User/User";
 import config from "config";
-import { IUser } from "../../../types";
+import { IDialog, IUser } from "../../../types";
 import { $userInfo } from "../../../store/userInfo";
+import { useNavigate } from "react-router-dom";
+import Cookies, { Cookie } from "universal-cookie";
+import { setDialogId } from "../../../store/dialogId";
 
 const UsersList = () => {
-  const searchInfo = useStore($searchInfo);
+  const navigate = useNavigate();
   const userInfo = useStore($userInfo);
+  const searchInfo = useStore($searchInfo);
   const [user, setUser] = React.useState<IUser | undefined>(undefined);
   const [allUsers, setAllUsers] = React.useState<IUser[] | undefined>(
     undefined
   );
+  const [myDialogs, setMyDialogs] = React.useState<IDialog[] | []>([]);
 
   React.useEffect(() => {
     axios
@@ -45,26 +50,66 @@ const UsersList = () => {
       });
   }, []);
 
-  const createNewDialog = async (comradeId: string) => {
-    await axios.post(`${process.env.REACT_APP_PROXY}/api/dialog/new-dialog`, {
-      comradeId
-    }, {
-      headers: {
-        Authorization: `Bearer ${userInfo.token}`
-      }
-    });
-    
-    alert("OK");
-  }
+  React.useEffect(() => {
+    const cookies: Cookie = new Cookies();
+
+    axios
+      .get(`${process.env.REACT_APP_PROXY}/api/dialog/my-dialogs`, {
+        headers: {
+          Authorization: `Bearer ${cookies.get("token")}`,
+        },
+      })
+      .then((res: AxiosResponse) => {
+        if (res.data.dialogs) {
+          setMyDialogs(res.data.dialogs);
+        }
+      });
+  }, []);
+
+  const createNewDialog = async (comradeId: string, comradeName: string) => {
+    const cookies: Cookie = new Cookies();
+
+    await axios
+      .post(
+        `${process.env.REACT_APP_PROXY}/api/dialog/new-dialog`,
+        {
+          comradeId,
+          comradeName
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${cookies.get("token")}`,
+          },
+        }
+      )
+      .then((res: AxiosResponse) => {
+        setDialogId(res.data.dialogId);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
 
   return (
     <div className="flex flex-col w-[100%] mt-[25px] overflow-auto mb-[50px]">
       {user ? (
-        <User userName={user && user.name} onClick={() => createNewDialog(user._id)} />
-      ) : (
-        searchInfo.isFocus &&
+        <User
+          userName={user && user.name}
+          onClick={() => createNewDialog(user._id, user.name)}
+        />
+      ) : searchInfo.isFocus ? (
         allUsers?.map((user) => {
-          return <User key={user._id} userName={user.name} />;
+          return (
+            <User
+              key={user._id}
+              userName={user.name}
+              onClick={() => createNewDialog(user._id, user.name)}
+            />
+          );
+        })
+      ) : (
+        myDialogs.map((dialog) => {
+          return <User userName={userInfo.userId === dialog.mainUserId ? dialog.comradeName : dialog.mainUserName} />
         })
       )}
     </div>

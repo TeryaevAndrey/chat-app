@@ -5,17 +5,18 @@ import MainPage from './pages/MainPage';
 import Cookies from 'universal-cookie';
 import { useNavigate } from 'react-router-dom';
 import { Cookie } from 'universal-cookie/cjs/types';
-import { updateUserInfo } from './store/userInfo';
+import { $userInfo, updateUserInfo } from './store/userInfo';
 import { useStore } from 'effector-react';
-import { $dialogId, setDialogId } from './store/dialogId';
+import { $dialogId } from './store/dialogId';
 
 const App: FC = () => {
   const navigate = useNavigate();
   const dialogId = useStore($dialogId);
+  const userInfo = useStore($userInfo);
 
   React.useEffect(() => {
     const cookies: Cookie = new Cookies();
-
+  
     if(!cookies.get("token")) {
       navigate("/auth");
     } else {
@@ -23,20 +24,18 @@ const App: FC = () => {
 
       navigate(`/${userInfo.userId}?${dialogId}`);
     }
-  }, [navigate]);
+  }, [navigate, dialogId]);
 
   React.useEffect(() => {
     const localStorageUserInfo = JSON.parse(localStorage.getItem("userInfo") || "{}");
     
     if(localStorageUserInfo) {
       updateUserInfo({
-        token: localStorageUserInfo.token,
         userId: localStorageUserInfo.userId,
         name: localStorageUserInfo.name
       });
     } else {
       updateUserInfo({
-        token: undefined,
         userId: undefined,
         name: undefined
       });

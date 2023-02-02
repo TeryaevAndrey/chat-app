@@ -49,7 +49,6 @@ const AuthPage: FC = () => {
           );
 
           updateUserInfo({
-            token: res.data.userInfo.token,
             userId: res.data.userInfo.userId,
             name: res.data.userInfo.name
           });
@@ -83,7 +82,6 @@ const AuthPage: FC = () => {
           );
 
           updateUserInfo({
-            token: res.data.token,
             userId: res.data.userId,
             name: res.data.name
           });
