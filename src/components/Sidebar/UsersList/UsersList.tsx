@@ -101,15 +101,18 @@ const UsersList = () => {
           onClick={() => createNewDialog(user._id, user.name)}
         />
       ) : searchInfo.isFocus ? (
-        allUsers?.map((user) => {
-          return (
-            <User
-              key={user._id}
-              userName={user.name}
-              onClick={() => createNewDialog(user._id, user.name)}
-            />
-          );
-        })
+        <>
+          <p className="mb-3 ml-[30px]">Все пользователи...</p>
+          {allUsers?.map((user) => {
+            return (
+              <User
+                key={user._id}
+                userName={user.name}
+                onClick={() => createNewDialog(user._id, user.name)}
+              />
+            );
+          })}
+        </>
       ) : (
         myDialogs.map((dialog) => {
           return (
@@ -120,7 +123,12 @@ const UsersList = () => {
                   ? dialog.comradeName
                   : dialog.mainUserName
               }
-              onClick={() => createNewDialog(dialog.comradeId || dialog.mainUserId, dialog.mainUserName || dialog.comradeName)}
+              onClick={() =>
+                createNewDialog(
+                  dialog.comradeId,
+                  dialog.comradeName
+                )
+              }
             />
           );
         })
