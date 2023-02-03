@@ -10,14 +10,15 @@ interface IFooter {
 }
 
 const Footer: FC<IFooter> = ({messages, setMessages}) => {
-  const socket = new WebSocket("ws://localhost:5000/api/message/new-message");
   const userInfo = useStore($userInfo);
   const [sendValue, setSendValue] = React.useState<string>("");
   const [message, setMessage] = React.useState<IMessage | undefined>(undefined);
+  const socket = new WebSocket("ws://localhost:5000/api/message/new-message");
 
 
   React.useEffect(() => {
     socket.onmessage = (msg) => {
+      console.log(msg);
       if(userInfo.userId) {
         setMessage({
           message: msg.data, 
@@ -25,7 +26,7 @@ const Footer: FC<IFooter> = ({messages, setMessages}) => {
         });
       }
     }
-  }, [socket]);
+  }, []);
 
   React.useEffect(() => {
     if(message !== undefined) {
