@@ -15,3 +15,8 @@ export interface IDialog {
   comradeName: string;
   mainUserName: string;
 }
+
+export interface IMessage {
+  message: string;
+  from: string;
+}
