@@ -13,13 +13,13 @@ interface IField {
 
 const Field: FC<IField> = ({messages}) => {
   const userInfo = useStore($userInfo);
-
+  console.log(messages);
   return (
     <div className="bg-[#758A96] w-[100%] h-[100%] flex flex-col">
       <div className="flex flex-col gap-[5px] mx-[25px] my-[20px] mt-[auto]">
         {
           messages.map((message, index) => {
-            return <Message key={index} message={message.message} my={userInfo.userId ? true : false} />
+            return <Message key={index} message={message.message} my={userInfo.userId === message.from ? true : false} />
           })
         }
       </div>

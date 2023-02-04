@@ -1,5 +1,6 @@
 import { useStore } from 'effector-react';
 import React, { FC } from 'react';
+import { $dialogId } from '../../../store/dialogId';
 import { $searchInfo } from '../../../store/search';
 import { $userInfo } from '../../../store/userInfo';
 import { IMessage } from '../../../types';
@@ -11,9 +12,13 @@ interface IFooter {
 
 const Footer: FC<IFooter> = ({messages, setMessages}) => {
   const userInfo = useStore($userInfo);
-  const [sendValue, setSendValue] = React.useState<string>("");
+  const dialogId = useStore($dialogId);
+  const [sendValue, setSendValue] = React.useState({
+    message: "",
+    from: userInfo.userId
+  });
   const [message, setMessage] = React.useState<IMessage | undefined>(undefined);
-  const socket = new WebSocket("ws://localhost:5000/api/message/new-message");
+  const socket = new WebSocket(`ws://localhost:5000/api/message/new-message/:${dialogId}`);
 
 
   React.useEffect(() => {
@@ -21,8 +26,8 @@ const Footer: FC<IFooter> = ({messages, setMessages}) => {
       console.log(msg);
       if(userInfo.userId) {
         setMessage({
-          message: msg.data, 
-          from: userInfo.userId
+          message: JSON.parse(msg.data).message, 
+          from: JSON.parse(msg.data).from
         });
       }
     }
@@ -34,17 +39,15 @@ const Footer: FC<IFooter> = ({messages, setMessages}) => {
     }
   }, [message]);
 
-  console.log(messages);
-
   const onChangeSendValue = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setSendValue(e.target.value);
+    setSendValue( prev => ({...prev, message: e.target.value}));
   }
 
   const formHandler = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
 
     try {
-      socket.send(sendValue);
+      socket.send(JSON.stringify(sendValue));
     } catch(err) {
       console.log(err);
     }
@@ -53,7 +56,7 @@ const Footer: FC<IFooter> = ({messages, setMessages}) => {
   return (
     <div className="w-[100%] min-h-[53px] bg-[#A7C9DC] px-[35px] py-[20px]">
       <form className="flex items-center justify-between">
-        <input className="w-[100%] text-[14px] text-[#000] placeholder:text-[14px] placeholder:text-[#000] bg-transparent mr-[30px]" type="text" placeholder="Написать сообщение..." onChange={onChangeSendValue} value={sendValue} />
+        <input className="w-[100%] text-[14px] text-[#000] placeholder:text-[14px] placeholder:text-[#000] bg-transparent mr-[30px]" type="text" placeholder="Написать сообщение..." onChange={onChangeSendValue} value={sendValue.message} />
 
         <button className="w-[32px] h-[32px]" onClick={formHandler}>
           <img className="w-[100%] h-[100%] object-cover" src="/img/send.svg" alt="send" />
