@@ -1,5 +1,7 @@
+import axios from 'axios';
 import { useStore } from 'effector-react';
 import React, { FC } from 'react';
+import Cookies, { Cookie } from 'universal-cookie';
 import { $dialogId } from '../../../store/dialogId';
 import { $searchInfo } from '../../../store/search';
 import { $userInfo } from '../../../store/userInfo';
@@ -20,8 +22,22 @@ const Footer: FC<IFooter> = ({messages, setMessages}) => {
   const [message, setMessage] = React.useState<IMessage | undefined>(undefined);
   const socket = new WebSocket(`ws://localhost:5000/api/message/new-message/:${dialogId}`);
 
+  console.log(socket);
+  console.log(dialogId);
 
   React.useEffect(() => {
+    setMessages([]);
+
+    axios.get(`${process.env.REACT_APP_PROXY}/api/message/get-messages/${dialogId}`).then((res) => {
+      res.data.messages.forEach((message: any) => {
+        setMessages((prev: any) => [...prev, {message: message.message, from: message.sender}]);
+      });
+    });
+  }, [dialogId]);
+
+
+  React.useEffect(() => {
+    const socket = new WebSocket(`ws://localhost:5000/api/message/new-message/:${dialogId}`);
     socket.onmessage = (msg) => {
       console.log(msg);
       if(userInfo.userId) {
@@ -31,7 +47,7 @@ const Footer: FC<IFooter> = ({messages, setMessages}) => {
         });
       }
     }
-  }, []);
+  }, [dialogId]);
 
   React.useEffect(() => {
     if(message !== undefined) {
@@ -47,7 +63,19 @@ const Footer: FC<IFooter> = ({messages, setMessages}) => {
     e.preventDefault();
 
     try {
+      const cookies: Cookie = new Cookies();
       socket.send(JSON.stringify(sendValue));
+
+      axios.post(`${process.env.REACT_APP_PROXY}/api/message/new-message`, {
+        messageText: sendValue.message,
+        dialog: dialogId,
+      }, {
+        headers: {
+          Authorization: `Bearer ${cookies.get("token")}`
+        }
+      });
+
+      setSendValue(prev => ({...prev, message: ""}));
     } catch(err) {
       console.log(err);
     }
