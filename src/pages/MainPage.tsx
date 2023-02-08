@@ -1,14 +1,13 @@
-import React, { FC } from 'react';
-import Main from '../components/Main/Main';
-import Sidebar from '../components/Sidebar/Sidebar';
+import React, { FC } from "react";
+import Sidebar from "../components/Sidebar/Sidebar";
 
-
-const MainPage:FC = () => {
+const MainPage: FC = () => {
   return (
-    <div className="h-[100%] w-[100%] flex justify-center items-center">
-      <div className="w-[100%] bg-[#8DB3C9] h-[100vh] overflow-hidden flex items-start">
-        <Sidebar />
-        <Main />
+    <div className="flex justify-center items-center h-screen">
+      <div className="w-[60%] h-[80%] bg-white rounded-[7px]">
+        <div className="flex items-start w-full h-full">
+          <Sidebar />
+        </div>
       </div>
     </div>
   );
