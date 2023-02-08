@@ -22,19 +22,23 @@ input {
   outline: none;
 }
 
-.dialogs {
+.dialogs,
+.field {
   scrollbar-color: #0D1C2E #fff;
 }
 
-.dialogs::-webkit-scrollbar {
+.dialogs::-webkit-scrollbar,
+.field::-webkit-scrollbar {
   width: 3px;
 }
 
-.dialogs::-webkit-scrollbar-track {
+.dialogs::-webkit-scrollbar-track,
+.field::-webkit-scrollbar-track {
   background: #fff;
 }
 
-.dialogs::-webkit-scrollbar-thumb {
+.dialogs::-webkit-scrollbar-thumb,
+.field::-webkit-scroll-bar-thumb {
   background-color: #0D1C2E;
   border-radius: 20px;
 }

@@ -1,4 +1,5 @@
 import React, { FC } from "react";
+import Main from "../components/Main/Main";
 import Sidebar from "../components/Sidebar/Sidebar";
 
 const MainPage: FC = () => {
@@ -7,6 +8,7 @@ const MainPage: FC = () => {
       <div className="w-[60%] h-[80%] bg-white rounded-[7px]">
         <div className="flex items-start w-full h-full">
           <Sidebar />
+          <Main />
         </div>
       </div>
     </div>

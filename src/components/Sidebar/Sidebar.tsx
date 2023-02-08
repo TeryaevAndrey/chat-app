@@ -5,7 +5,7 @@ import ProfileInfo from './ProfileInfo';
 
 const Sidebar: FC = () => {
   return (
-    <div className="w-[30%] h-full border-r-[1px] border-[rgba(112, 124, 151, 0.1);] border-solid flex flex-col">
+    <div className="w-[30%] h-full border-r-[1px] border-[rgba(112, 124, 151, 0.1)] border-solid flex flex-col">
       <ProfileInfo img="/img/avatar.png" name="Henry Jabbawockiez" />
       <Dialogs />
       <Exit />
