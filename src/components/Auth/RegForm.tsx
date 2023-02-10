@@ -1,6 +1,22 @@
 import React, { FC } from "react";
+import axios, {AxiosResponse, AxiosError} from "axios";
+import AlertSuccess from "../Alerts/AlertSuccess";
+import { useNavigate } from "react-router-dom";
+import AlertError from "../Alerts/AlertError";
 
 const RegForm: FC = () => {
+  const navigate = useNavigate();
+  const [userName, setUserName] = React.useState<string>("");
+  const [password, setPassword] = React.useState<string>("");
+
+  const onChangeUserName = (e: React.ChangeEvent<HTMLInputElement>): void => {
+    setUserName(e.target.value);
+  }
+
+  const onChangePassword = (e: React.ChangeEvent<HTMLInputElement>): void => {
+    setPassword(e.target.value);
+  }
+  
   return (
     <section className="flex justify-center items-center h-screen">
       <div className="px-6 text-gray-800">
@@ -39,15 +55,15 @@ const RegForm: FC = () => {
                 >
                   Зарегистрироваться
                 </button>
-                <p className="text-sm font-semibold mt-2 pt-1 mb-0">
-                  Уже есть аккаунт?
-                  <a
-                    href="#!"
-                    className="text-red-600 hover:text-red-700 focus:text-red-700 transition duration-200 ease-in-out ml-[10px]"
+                <div className="flex items-center text-sm font-semibold mt-2 pt-1 mb-0">
+                  <p>Уже есть аккаунт?</p>
+                  <p
+                    className="text-red-600 hover:text-red-700 focus:text-red-700 transition duration-200 ease-in-out ml-[10px] cursor-pointer"
+                    onClick={() => navigate("/auth/entrance")}
                   >
                     Войти
-                  </a>
-                </p>
+                  </p>
+                </div>
               </div>
             </form>
           </div>

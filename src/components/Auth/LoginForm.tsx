@@ -1,6 +1,9 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 
 const LoginForm = () => {
+  const navigate = useNavigate();
+
   return (
     <section className="flex justify-center items-center h-screen">
       <div className="px-6 text-gray-800">
@@ -55,15 +58,15 @@ const LoginForm = () => {
                 >
                   Войти
                 </button>
-                <p className="text-sm font-semibold mt-2 pt-1 mb-0">
-                  Нет аккаунта?
-                  <a
-                    href="#!"
-                    className="text-red-600 hover:text-red-700 focus:text-red-700 transition duration-200 ease-in-out ml-[10px]"
+                <div className="flex items-center text-sm font-semibold mt-2 pt-1 mb-0">
+                  <p>Нет аккаунта?</p>
+                  <p
+                    className="text-red-600 hover:text-red-700 focus:text-red-700 transition duration-200 ease-in-out ml-[10px] cursor-pointer"
+                    onClick={() => navigate("/auth/reg")}
                   >
-                     Зарегистрироваться
-                  </a>
-                </p>
+                    Зарегистрироваться
+                  </p>
+                </div>
               </div>
             </form>
           </div>
