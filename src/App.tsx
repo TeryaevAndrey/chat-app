@@ -8,10 +8,14 @@ import { useStore } from "effector-react";
 import AlertSuccess from "./components/Alerts/AlertSuccess";
 import AlertError from "./components/Alerts/AlertError";
 import { $userInfo, setUserInfo } from "./store/userInfo";
+import SettingsPage from "./pages/SettingsPage";
+import useRoutes from "./routes";
 
 const App: FC = () => {
   const userInfo = useStore($userInfo);
   const navigate = useNavigate();
+  const cookies: Cookie = new Cookies();
+  const [isAuth, setIsAuth] = React.useState<boolean>(false);
 
   React.useEffect(() => {
     const localStorageUserInfo = JSON.parse(
@@ -34,26 +38,16 @@ const App: FC = () => {
   }, []);
 
   React.useEffect(() => {
-    const cookies: Cookie = new Cookies();
-
-    if (!cookies.get("token")) {
-      navigate("/auth/entrance");
-    } else {
-      const userInfo = JSON.parse(localStorage.getItem("userInfo") || "{}");
-
-      navigate("/" + userInfo.userId + "/empty");
-    }
+    userInfo.token ? setIsAuth(true) : setIsAuth(false);
   }, [userInfo]);
 
   return (
     <div className="min-h-screen">
       <AlertSuccess />
       <AlertError />
-      <Routes>
-        <Route path="/:id/:dialogId" element={<MainPage />} />
-        <Route path="/auth/entrance" element={<LoginPage />} />
-        <Route path="/auth/reg" element={<RegPage />} />
-      </Routes>
+      {
+        useRoutes(isAuth)
+      }
     </div>
   );
 };

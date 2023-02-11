@@ -1,10 +1,12 @@
 import React from 'react';
 import {AiOutlinePoweroff} from "react-icons/ai";
+import { useNavigate } from 'react-router-dom';
 import Cookies, { Cookie } from 'universal-cookie';
 import { setUserInfo } from '../../store/userInfo';
 
 const Exit = () => {
   const cookies: Cookie = new Cookies();
+  const navigate = useNavigate();
 
   const exitFromAccount = async (e: React.MouseEvent<HTMLElement>) => {
     await cookies.remove("token");
@@ -16,6 +18,8 @@ const Exit = () => {
     });
 
     localStorage.removeItem("userInfo");
+
+    navigate("/auth/entrance");
   } 
 
   return (
