@@ -41,7 +41,7 @@ const App: FC = () => {
     } else {
       const userInfo = JSON.parse(localStorage.getItem("userInfo") || "{}");
 
-      navigate("/" + userInfo.userId);
+      navigate("/" + userInfo.userId + "/empty");
     }
   }, [userInfo]);
 
@@ -50,7 +50,7 @@ const App: FC = () => {
       <AlertSuccess />
       <AlertError />
       <Routes>
-        <Route path="/:id" element={<MainPage />} />
+        <Route path="/:id/:dialogId" element={<MainPage />} />
         <Route path="/auth/entrance" element={<LoginPage />} />
         <Route path="/auth/reg" element={<RegPage />} />
       </Routes>

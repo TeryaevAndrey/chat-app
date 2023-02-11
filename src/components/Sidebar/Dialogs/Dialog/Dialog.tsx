@@ -3,9 +3,9 @@ import React, { FC } from "react";
 interface IDialog {
   img: string;
   userName: string;
-  lastMessage?: string;
-  isNewMessage: boolean;
-  isActive: boolean;
+  lastMessage?: string | undefined;
+  isNewMessage?: boolean | undefined;
+  isActive?: boolean;
 }
 
 const Dialog: FC<IDialog> = ({ img, userName, lastMessage, isNewMessage, isActive }) => {

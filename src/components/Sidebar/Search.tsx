@@ -1,56 +1,60 @@
 import axios, { AxiosResponse } from "axios";
 import { useStore } from "effector-react";
 import React, { FC } from "react";
+import { setFoundDialogs } from "../../store/foundDialogs";
+import { $myDialogs } from "../../store/myDialogs";
 import { $searchValue, setSearchValue } from "../../store/search";
+import { $userInfo } from "../../store/userInfo";
 import { $users, setUsers } from "../../store/users";
 
 const Search: FC = () => {
   const searchValue = useStore($searchValue);
-
-  React.useEffect(() => {
-    axios
-      .post(process.env.REACT_APP_PROXY + "/api/users/users-search", {
-        userName: searchValue,
-      })
-      .then((res: AxiosResponse) => {
-        setUsers(res.data.users);
-      })
-      .catch((err) => {
-        console.log("Никого нет:(");
-      });
-  }, [searchValue]);
+  const myDialogs = useStore($myDialogs);
+  const userInfo = useStore($userInfo);
 
   const onChangeSearchValue = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchValue(e.target.value);
   };
 
-  const onFocusSearch = async () => {
-    if (searchValue.length === 0) {
-      await axios
-        .get(
-          process.env.REACT_APP_PROXY +
-            "/api/users/get-all-users?limit=10&page=0"
-        )
+  React.useEffect(() => {
+    if (searchValue.length) {
+      const filteredMyDialogs = myDialogs.filter((dialog) => {
+        if (userInfo.userId === dialog.creator) {
+          return dialog.fellowName
+            .toLowerCase()
+            .includes(searchValue.toLowerCase());
+        } else {
+          return dialog.creatorName
+            .toLowerCase()
+            .includes(searchValue.toLowerCase());
+        }
+      });
+
+      setFoundDialogs(filteredMyDialogs);
+    }
+  }, [searchValue]);
+
+  React.useEffect(() => {
+    if (searchValue.length) {
+      axios
+        .post(process.env.REACT_APP_PROXY + "/api/users/users-search", {
+          userName: searchValue,
+        })
         .then((res: AxiosResponse) => {
-          console.log(res);
           setUsers(res.data.users);
         })
         .catch((err) => {
-          console.log(err);
+          console.log("Нет совпадений");
         });
+    } else {
+      setUsers([]);
     }
-  };
-
-  const onBlurSearch = async () => {
-    setUsers([]);
-  };
+  }, [searchValue]);
 
   return (
     <div className="flex justify-center mx-[20px] mt-[20px]">
       <div className="mb-3 xl:w-96">
         <input
-          onFocus={onFocusSearch}
-          onBlur={onBlurSearch}
           onChange={onChangeSearchValue}
           value={searchValue}
           type="search"
