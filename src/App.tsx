@@ -3,24 +3,54 @@ import { NavigateFunction, Route, Routes, useNavigate } from "react-router-dom";
 import LoginPage from "./pages/LoginPage";
 import MainPage from "./pages/MainPage";
 import RegPage from "./pages/RegPage";
-import Cookies from "universal-cookie";
+import Cookies, { Cookie } from "universal-cookie";
+import { useStore } from "effector-react";
+import AlertSuccess from "./components/Alerts/AlertSuccess";
+import AlertError from "./components/Alerts/AlertError";
+import { $userInfo, setUserInfo } from "./store/userInfo";
 
 const App: FC = () => {
-  const cookies: Cookies = new Cookies();
-  const navigate: NavigateFunction = useNavigate();
+  const userInfo = useStore($userInfo);
+  const navigate = useNavigate();
 
   React.useEffect(() => {
-    if(!cookies.get("token")) {
+    const localStorageUserInfo = JSON.parse(
+      localStorage.getItem("userInfo") || "{}"
+    );
+
+    if (localStorageUserInfo) {
+      setUserInfo({
+        userId: localStorageUserInfo.userId,
+        token: localStorageUserInfo.token,
+        userName: localStorageUserInfo.userName,
+      });
+    } else {
+      setUserInfo({
+        userId: undefined,
+        token: undefined,
+        userName: undefined,
+      });
+    }
+  }, []);
+
+  React.useEffect(() => {
+    const cookies: Cookie = new Cookies();
+
+    if (!cookies.get("token")) {
       navigate("/auth/entrance");
     } else {
-      navigate("/");
+      const userInfo = JSON.parse(localStorage.getItem("userInfo") || "{}");
+
+      navigate("/" + userInfo.userId);
     }
-  }, [cookies.get("token")]);
+  }, [userInfo]);
 
   return (
     <div className="min-h-screen">
+      <AlertSuccess />
+      <AlertError />
       <Routes>
-        <Route path="/" element={<MainPage />} />
+        <Route path="/:id" element={<MainPage />} />
         <Route path="/auth/entrance" element={<LoginPage />} />
         <Route path="/auth/reg" element={<RegPage />} />
       </Routes>

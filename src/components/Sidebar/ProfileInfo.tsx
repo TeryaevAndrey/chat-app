@@ -14,7 +14,7 @@ const ProfileInfo: FC<IProfileInfo> = ({ img, name }) => {
   };
 
   return (
-    <div className="flex flex-col items-center pt-[85px] px-[45px] relative">
+    <div className="flex flex-col items-center pt-[40px] px-[45px] relative">
       <div className="w-[80px] h-[80px] overflow-hidden rounded-[50%]">
         <img className="w-full h-full object-none" src={img} alt={name} />
       </div>

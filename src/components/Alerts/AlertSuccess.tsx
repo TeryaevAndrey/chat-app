@@ -1,14 +1,17 @@
-import React, { FC } from 'react';
+import React, { FC } from "react";
+import { useStore } from "effector-react";
+import { $alertSuccessInfo } from "../../store/alerts/alertSuccess";
 
-interface IAlertSuccess {
-  isSuccess: boolean;
-  title: string;
-}
+const AlertSuccess: FC = () => {
+  const alertSuccessInfo = useStore($alertSuccessInfo);
 
-const AlertSuccess: FC<IAlertSuccess> = ({isSuccess, title}) => {
   return (
-    <div className={`fixed top-0 ${isSuccess ? "right-0" : "right-[-100%]"} text-white bg-green-400 px-5 py-3 rounded-bl-[5px] ease-linear duration-300`}>
-      Успешно!
+    <div
+      className={`fixed top-0 ${
+        alertSuccessInfo.isSuccess ? "right-0" : "right-[-100%]"
+      } text-white bg-green-400 px-5 py-3 rounded-bl-[5px] ease-linear duration-300`}
+    >
+      {alertSuccessInfo.title}
     </div>
   );
 };
