@@ -1,15 +1,17 @@
 import {createEvent, createStore} from "effector";
 
-export const updateUserInfo = createEvent<IUserInfo>();
-
 interface IUserInfo {
   userId: string | undefined;
-  name: string | undefined;
+  token: string | undefined;
+  userName: string | undefined;
 }
+
+export const setUserInfo = createEvent<IUserInfo>();
 
 export const $userInfo = createStore<IUserInfo>({
   userId: undefined,
-  name: undefined
+  token: undefined,
+  userName: undefined
 });
 
-$userInfo.on(updateUserInfo, (state, data: IUserInfo) => state = data);
+$userInfo.on(setUserInfo, (state, data) => state = data);

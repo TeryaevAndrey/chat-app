@@ -1,15 +1,7 @@
 import {createEvent, createStore} from "effector";
 
-interface ISearch {
-  value: string;
-  isFocus: boolean;
-}
+export const setSearchValue = createEvent<string>();
 
-export const setSearchInfo = createEvent<ISearch>();
+export const $searchValue = createStore<string>("");
 
-export const $searchInfo = createStore<ISearch>({
-  value: "",
-  isFocus: false
-});
-
-$searchInfo.on(setSearchInfo, (state, data: ISearch) => state = data);
+$searchValue.on(setSearchValue, (state, data) => state = data);

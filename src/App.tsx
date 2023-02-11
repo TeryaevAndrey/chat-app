@@ -1,53 +1,61 @@
-import React, { FC } from 'react';
-import AuthPage from './pages/AuthPage';
-import {Routes, Route} from "react-router-dom";
-import MainPage from './pages/MainPage';
-import Cookies from 'universal-cookie';
-import { useNavigate } from 'react-router-dom';
-import { Cookie } from 'universal-cookie/cjs/types';
-import { $userInfo, updateUserInfo } from './store/userInfo';
-import { useStore } from 'effector-react';
-import { $dialogId } from './store/dialogId';
+import React, { FC } from "react";
+import { NavigateFunction, Route, Routes, useNavigate } from "react-router-dom";
+import LoginPage from "./pages/LoginPage";
+import MainPage from "./pages/MainPage";
+import RegPage from "./pages/RegPage";
+import Cookies, { Cookie } from "universal-cookie";
+import { useStore } from "effector-react";
+import AlertSuccess from "./components/Alerts/AlertSuccess";
+import AlertError from "./components/Alerts/AlertError";
+import { $userInfo, setUserInfo } from "./store/userInfo";
 
 const App: FC = () => {
-  const navigate = useNavigate();
-  const dialogId = useStore($dialogId);
   const userInfo = useStore($userInfo);
+  const navigate = useNavigate();
 
   React.useEffect(() => {
-    const cookies: Cookie = new Cookies();
-  
-    if(!cookies.get("token")) {
-      navigate("/auth");
-    } else {
-      const userInfo = JSON.parse(localStorage.getItem("userInfo") || "{}");
+    const localStorageUserInfo = JSON.parse(
+      localStorage.getItem("userInfo") || "{}"
+    );
 
-      navigate(`/${userInfo.userId}?${dialogId}`);
-    }
-  }, [navigate, dialogId]);
-
-  React.useEffect(() => {
-    const localStorageUserInfo = JSON.parse(localStorage.getItem("userInfo") || "{}");
-    
-    if(localStorageUserInfo) {
-      updateUserInfo({
+    if (localStorageUserInfo) {
+      setUserInfo({
         userId: localStorageUserInfo.userId,
-        name: localStorageUserInfo.name
+        token: localStorageUserInfo.token,
+        userName: localStorageUserInfo.userName,
       });
     } else {
-      updateUserInfo({
+      setUserInfo({
         userId: undefined,
-        name: undefined
+        token: undefined,
+        userName: undefined,
       });
     }
   }, []);
 
+  React.useEffect(() => {
+    const cookies: Cookie = new Cookies();
+
+    if (!cookies.get("token")) {
+      navigate("/auth/entrance");
+    } else {
+      const userInfo = JSON.parse(localStorage.getItem("userInfo") || "{}");
+
+      navigate("/" + userInfo.userId + "/empty");
+    }
+  }, [userInfo]);
+
   return (
-    <Routes>
-      <Route path="/auth" element={<AuthPage />} />
-      <Route path="/:id?/:dialog" element={<MainPage />} />
-    </Routes>
+    <div className="min-h-screen">
+      <AlertSuccess />
+      <AlertError />
+      <Routes>
+        <Route path="/:id/:dialogId" element={<MainPage />} />
+        <Route path="/auth/entrance" element={<LoginPage />} />
+        <Route path="/auth/reg" element={<RegPage />} />
+      </Routes>
+    </div>
   );
-}
+};
 
 export default App;

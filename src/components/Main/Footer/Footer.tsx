@@ -1,95 +1,23 @@
-import axios from 'axios';
-import { useStore } from 'effector-react';
-import React, { FC } from 'react';
-import Cookies, { Cookie } from 'universal-cookie';
-import { $dialogId } from '../../../store/dialogId';
-import { $searchInfo } from '../../../store/search';
-import { $userInfo } from '../../../store/userInfo';
-import { IMessage } from '../../../types';
+import React, { FC } from "react";
+import {AiOutlinePaperClip} from "react-icons/ai";
+import { BsFillEmojiSmileFill } from "react-icons/bs";
+import {MdSend} from "react-icons/md";
 
-interface IFooter {
-  messages: IMessage[];
-  setMessages: Function;
-}
-
-const Footer: FC<IFooter> = ({messages, setMessages}) => {
-  const userInfo = useStore($userInfo);
-  const dialogId = useStore($dialogId);
-  const [sendValue, setSendValue] = React.useState({
-    message: "",
-    from: userInfo.userId
-  });
-  const [message, setMessage] = React.useState<IMessage | undefined>(undefined);
-  const socket = new WebSocket(`ws://localhost:5000/api/message/new-message/:${dialogId}`);
-
-  console.log(socket);
-  console.log(dialogId);
-
-  React.useEffect(() => {
-    setMessages([]);
-
-    axios.get(`${process.env.REACT_APP_PROXY}/api/message/get-messages/${dialogId}`).then((res) => {
-      res.data.messages.forEach((message: any) => {
-        setMessages((prev: any) => [...prev, {message: message.message, from: message.sender}]);
-      });
-    });
-  }, [dialogId]);
-
-
-  React.useEffect(() => {
-    const socket = new WebSocket(`ws://localhost:5000/api/message/new-message/:${dialogId}`);
-    socket.onmessage = (msg) => {
-      console.log(msg);
-      if(userInfo.userId) {
-        setMessage({
-          message: JSON.parse(msg.data).message, 
-          from: JSON.parse(msg.data).from
-        });
-      }
-    }
-  }, [dialogId]);
-
-  React.useEffect(() => {
-    if(message !== undefined) {
-      setMessages((prev: any) => [...prev, message]);
-    }
-  }, [message]);
-
-  const onChangeSendValue = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setSendValue( prev => ({...prev, message: e.target.value}));
-  }
-
-  const formHandler = (e: React.MouseEvent<HTMLButtonElement>) => {
-    e.preventDefault();
-
-    try {
-      const cookies: Cookie = new Cookies();
-      socket.send(JSON.stringify(sendValue));
-
-      axios.post(`${process.env.REACT_APP_PROXY}/api/message/new-message`, {
-        messageText: sendValue.message,
-        dialog: dialogId,
-      }, {
-        headers: {
-          Authorization: `Bearer ${cookies.get("token")}`
-        }
-      });
-
-      setSendValue(prev => ({...prev, message: ""}));
-    } catch(err) {
-      console.log(err);
-    }
-  }
-  
+const Footer: FC = () => {
   return (
-    <div className="w-[100%] min-h-[53px] bg-[#A7C9DC] px-[35px] py-[20px]">
-      <form className="flex items-center justify-between">
-        <input className="w-[100%] text-[14px] text-[#000] placeholder:text-[14px] placeholder:text-[#000] bg-transparent mr-[30px]" type="text" placeholder="Написать сообщение..." onChange={onChangeSendValue} value={sendValue.message} />
-
-        <button className="w-[32px] h-[32px]" onClick={formHandler}>
-          <img className="w-[100%] h-[100%] object-cover" src="/img/send.svg" alt="send" />
-        </button>
-      </form>
+    <div className="flex items-center min-h-[70px] max-h-[150px] pl-5 pr-4 py-3">
+      <div className="cursor-pointer mr-3">
+        <AiOutlinePaperClip size="30" color="#0D1C2E" />
+      </div>
+      <div className="w-full h-full flex items-center">
+        <input className="w-full" placeholder="Написать сообщение..." />
+      </div>
+      <div className="cursor-pointer mr-4">
+        <BsFillEmojiSmileFill size="25" color="#0D1C2E" />
+      </div>
+      <div className="cursor-pointer">
+        <MdSend size="30" color="#60A9F6" />
+      </div>
     </div>
   );
 };

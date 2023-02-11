@@ -1,19 +1,22 @@
 export interface IUser {
   _id: string;
-  name: string;
+  avatar: string;
+  userName: string;
   isOnline: boolean;
+  wasOnline: boolean;
   createdAt: string;
   updatedAt: string;
 }
 
 export interface IDialog {
   _id: string;
-  mainUserId: string;
-  comradeId: string;
-  createdAt: string;
-  updatedAt: string;
-  comradeName: string;
-  mainUserName: string;
+  creator: string;
+  fellow: string;
+  creatorAvatar: string;
+  fellowAvatar: string;
+  creatorName: string;
+  fellowName: string;
+  lastMessage: string;
 }
 
 export interface IMessage {

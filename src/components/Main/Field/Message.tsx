@@ -1,14 +1,20 @@
-import React, {FC} from 'react';
+import React, { FC } from 'react';
 
 interface IMessage {
-  message: string;
-  my: boolean;
+  avatarImg: string;
+  message: any;
+  isMyMessage: boolean;
 }
 
-const Message: FC<IMessage> = ({message, my}) => {
+const Message: FC<IMessage> = ({avatarImg, message, isMyMessage}) => {
   return (
-    <div className={`py-[8px] px-[11px] ${my ? "bg-[#5EA4CC]" : "bg-[#5284A0]"} w-[max-content] rounded-[10px]`}>
-      {message}
+    <div className="flex items-start"> 
+      <div className="w-[40px] h-[40px] rounded-[50%] overflow-hidden">
+        <img className="w-full h-full" src={avatarImg} alt="avatar" />
+      </div>
+      <div className={`px-3 py-3 ${isMyMessage ? "bg-[#60A9F6]" : "bg-[#779dc5]"} rounded-[12px] rounded-tl-[0] ml-3 mt-3 text-[#fff] font-normal`}>
+        {message}
+      </div>
     </div>
   );
 };

@@ -1,0 +1,44 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+@import "./fonts.css";
+
+* {
+  font-family: "TT Norms", sans-serif !important;
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+  font-family: Inter, sans-serif;
+}
+
+body {
+  background-color: #F3F3FB;
+  color: #0D1C2E;
+  font-size: 16px;
+  font-weight: 500;
+}
+
+input {
+  outline: none;
+}
+
+.dialogs,
+.field {
+  scrollbar-color: #0D1C2E #fff;
+}
+
+.dialogs::-webkit-scrollbar,
+.field::-webkit-scrollbar {
+  width: 3px;
+}
+
+.dialogs::-webkit-scrollbar-track,
+.field::-webkit-scrollbar-track {
+  background: #fff;
+}
+
+.dialogs::-webkit-scrollbar-thumb,
+.field::-webkit-scroll-bar-thumb {
+  background-color: #0D1C2E;
+  border-radius: 20px;
+}
