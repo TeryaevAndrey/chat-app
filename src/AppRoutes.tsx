@@ -1,11 +1,15 @@
 import React from "react";
-import { Route, Routes } from "react-router-dom";
+import { Route, Routes, Navigate, useNavigate } from "react-router-dom";
 import LoginPage from "./pages/LoginPage";
 import MainPage from "./pages/MainPage";
 import RegPage from "./pages/RegPage";
 import SettingsPage from "./pages/SettingsPage";
+import { $userInfo } from "./store/userInfo";
+import { useStore } from "effector-react";
 
-const useRoutes = (isAuth: boolean) => {
+const AppRoutes = (isAuth: boolean) => {
+  const userInfo = useStore($userInfo);
+
   if (isAuth) {
     return (
       <Routes>
@@ -13,6 +17,8 @@ const useRoutes = (isAuth: boolean) => {
         <Route path="/auth/entrance" element={<LoginPage />} />
         <Route path="/auth/reg" element={<RegPage />} />
         <Route path="/settings/:id" element={<SettingsPage />} />
+
+        <Route path="*" element={<Navigate to={`/${userInfo.userId}/empty`} replace />} />
       </Routes>
     );
   }
@@ -26,4 +32,4 @@ const useRoutes = (isAuth: boolean) => {
   );
 };
 
-export default useRoutes;
+export default AppRoutes;

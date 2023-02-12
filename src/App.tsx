@@ -9,7 +9,7 @@ import AlertSuccess from "./components/Alerts/AlertSuccess";
 import AlertError from "./components/Alerts/AlertError";
 import { $userInfo, setUserInfo } from "./store/userInfo";
 import SettingsPage from "./pages/SettingsPage";
-import useRoutes from "./routes";
+import useRoutes from "./AppRoutes";
 
 const App: FC = () => {
   const userInfo = useStore($userInfo);

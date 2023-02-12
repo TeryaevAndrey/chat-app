@@ -38,6 +38,10 @@ const RegForm: FC = () => {
       });
 
       setUserInfo(res.data.userInfo);
+      
+      if(userInfo.userId) {
+        navigate(`/${userInfo.userId}/empty`)
+      }
 
       setTimeout(() => {
         setAlertSuccessInfo({
