@@ -8,52 +8,28 @@ import { useStore } from "effector-react";
 import AlertSuccess from "./components/Alerts/AlertSuccess";
 import AlertError from "./components/Alerts/AlertError";
 import { $userInfo, setUserInfo } from "./store/userInfo";
+import SettingsPage from "./pages/SettingsPage";
+import useRoutes from "./AppRoutes";
+import axios from "axios";
+import getUserData from "./utils/getUserData";
 
 const App: FC = () => {
-  const userInfo = useStore($userInfo);
-  const navigate = useNavigate();
+  const cookies: Cookie = new Cookies();
+  const [isAuth, setIsAuth] = React.useState<boolean>(false);
 
   React.useEffect(() => {
-    const localStorageUserInfo = JSON.parse(
-      localStorage.getItem("userInfo") || "{}"
-    );
-
-    if (localStorageUserInfo) {
-      setUserInfo({
-        userId: localStorageUserInfo.userId,
-        token: localStorageUserInfo.token,
-        userName: localStorageUserInfo.userName,
-      });
-    } else {
-      setUserInfo({
-        userId: undefined,
-        token: undefined,
-        userName: undefined,
-      });
-    }
-  }, []);
+    getUserData();
+  }, [cookies]);
 
   React.useEffect(() => {
-    const cookies: Cookie = new Cookies();
-
-    if (!cookies.get("token")) {
-      navigate("/auth/entrance");
-    } else {
-      const userInfo = JSON.parse(localStorage.getItem("userInfo") || "{}");
-
-      navigate("/" + userInfo.userId + "/empty");
-    }
-  }, [userInfo]);
+    cookies.get("token") ? setIsAuth(true) : setIsAuth(false);
+  }, [cookies]);
 
   return (
     <div className="min-h-screen">
       <AlertSuccess />
       <AlertError />
-      <Routes>
-        <Route path="/:id/:dialogId" element={<MainPage />} />
-        <Route path="/auth/entrance" element={<LoginPage />} />
-        <Route path="/auth/reg" element={<RegPage />} />
-      </Routes>
+      {useRoutes(isAuth)}
     </div>
   );
 };

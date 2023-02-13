@@ -14,7 +14,7 @@ const Dialog: FC<IDialog> = ({ img, userName, lastMessage, isNewMessage, isActiv
       {
         isActive && <div className="block absolute left-0 w-[3px] h-full bg-[#60A9F6]"></div>
       }
-      <div className="w-[45px] h-[45px] overflow-hidden">
+      <div className="w-[45px] h-[45px] rounded-[50%] overflow-hidden">
         <img className="w-full h-full" src={img} alt={userName} />
       </div>
       <div className="mr-auto ml-2 flex flex-col">

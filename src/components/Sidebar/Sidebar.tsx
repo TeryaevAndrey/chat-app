@@ -17,11 +17,9 @@ const Sidebar: FC = () => {
   const foundDialogs = useStore($foundDialogs);
   const userInfo = useStore($userInfo);
 
-  console.log(users);
-
   return (
     <div className="w-[30%] h-full border-r-[1px] border-[rgba(112, 124, 151, 0.1)] border-solid flex flex-col">
-      <ProfileInfo img="/img/avatar.png" name="Henry Jabbawockiez" />
+      <ProfileInfo img={userInfo.avatar ? userInfo.avatar : "/img/avatar.png"} name={userInfo.userName} />
       <Search />
       {searchValue.length ? (
         <>

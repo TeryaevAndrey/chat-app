@@ -4,13 +4,15 @@ import Cookies, { Cookie } from "universal-cookie";
 import { useNavigate } from "react-router-dom";
 import { setAlertSuccessInfo } from "../../store/alerts/alertSuccess";
 import { setAlertErrorInfo } from "../../store/alerts/alertError";
-import { setUserInfo } from "../../store/userInfo";
+import { $userInfo, setUserInfo } from "../../store/userInfo";
+import { useStore } from "effector-react";
 
 const RegForm: FC = () => {
   const navigate = useNavigate();
   const cookies: Cookie = new Cookies();
   const [userName, setUserName] = React.useState<string>("");
   const [password, setPassword] = React.useState<string>("");
+  const userInfo = useStore($userInfo);
 
   const onChangeUserName = (e: React.ChangeEvent<HTMLInputElement>): void => {
     setUserName(e.target.value);
@@ -36,6 +38,10 @@ const RegForm: FC = () => {
       });
 
       setUserInfo(res.data.userInfo);
+      
+      if(userInfo.userId) {
+        navigate(`/${userInfo.userId}/empty`)
+      }
 
       setTimeout(() => {
         setAlertSuccessInfo({

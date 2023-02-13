@@ -2,15 +2,17 @@ import React, { FC } from "react";
 import { useNavigate } from "react-router-dom";
 import axios, { AxiosResponse } from "axios";
 import { setAlertSuccessInfo } from "../../store/alerts/alertSuccess";
-import { setUserInfo } from "../../store/userInfo";
+import { $userInfo, setUserInfo } from "../../store/userInfo";
 import Cookies, { Cookie } from "universal-cookie";
 import { setAlertErrorInfo } from "../../store/alerts/alertError";
+import { useStore } from "effector-react";
 
 const LoginForm: FC = () => {
   const navigate = useNavigate();
   const cookies: Cookie = new Cookies();
   const [userName, setUserName] = React.useState<string>("");
   const [password, setPassword] = React.useState<string>("");
+  const userInfo = useStore($userInfo);
 
   const onChangeUserName = (e: React.ChangeEvent<HTMLInputElement>): void => {
     setUserName(e.target.value);
@@ -39,6 +41,10 @@ const LoginForm: FC = () => {
         });
 
         setUserInfo(res.data.userInfo);
+
+        if(userInfo.userId) {
+          navigate(`/${userInfo.userId}/empty`)
+        }
 
         setTimeout(() => {
           setAlertSuccessInfo({
