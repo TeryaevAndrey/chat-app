@@ -42,3 +42,7 @@ input {
   background-color: #0D1C2E;
   border-radius: 20px;
 }
+
+.settings-avatar:hover div {
+  opacity: 1;
+}

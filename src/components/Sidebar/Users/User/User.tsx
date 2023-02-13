@@ -10,7 +10,7 @@ const User: FC<IUser> = ({ img, userName }) => {
     <div
       className={`bg-["transparent"] w-full min-h-[50px] flex justify-between items-center px-4 py-1 cursor-pointer hover:bg-[rgba(96,169,246,0.15)] relative`}
     >
-      <div className="w-[45px] h-[45px] overflow-hidden">
+      <div className="w-[45px] h-[45px] overflow-hidden rounded-[50%]">
         <img className="w-full h-full" src={img} alt={userName} />
       </div>
       <div className="mr-auto ml-2 flex flex-col">
