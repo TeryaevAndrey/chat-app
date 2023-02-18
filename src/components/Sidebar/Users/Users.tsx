@@ -8,6 +8,7 @@ import { $userInfo } from '../../../store/userInfo';
 import axios from 'axios';
 import { setCurrentDialogId } from '../../../store/currentDialogId';
 import { useNavigate } from 'react-router-dom';
+import io from '../../../core/socket';
 
 const Users: FC = () => {
   const users = useStore($users);
@@ -41,6 +42,10 @@ const Users: FC = () => {
       );
 
       navigate(`/${userInfo.userId}/${res.data.dialogId}`);
+
+      io.on("connection", (socket) => {
+        socket.join(res.data.dialogId);
+      });
 
       return setCurrentDialogId(res.data.dialogId);
     } catch (err) {

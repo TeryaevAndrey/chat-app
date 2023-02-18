@@ -21,5 +21,7 @@ export interface IDialog {
 
 export interface IMessage {
   message: string;
-  from: string;
+  dialog: string;
+  files?: [];
+  sender: string;
 }

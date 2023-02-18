@@ -3,6 +3,7 @@ import { useStore } from "effector-react";
 import React, { FC } from "react";
 import { useNavigate } from "react-router-dom";
 import Cookies, { Cookie } from "universal-cookie";
+import io from "../../../core/socket";
 import { setCurrentDialogId } from "../../../store/currentDialogId";
 import { $myDialogs, setMyDialogs } from "../../../store/myDialogs";
 import { $searchValue } from "../../../store/search";
@@ -60,6 +61,10 @@ const Dialogs: FC = () => {
       );
 
       navigate(`/${userInfo.userId}/${res.data.dialogId}`);
+
+      io.on("connection", (socket) => {
+        socket.join(res.data.dialogId);
+      });
 
       return setCurrentDialogId(res.data.dialogId);
     } catch (err) {
