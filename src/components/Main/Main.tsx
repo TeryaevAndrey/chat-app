@@ -1,7 +1,7 @@
 
 import React, { FC } from 'react';
 import { useParams } from 'react-router-dom';
-import getUserData from '../../utils/getUserData';
+import getUserData from '../../utils/getMyData';
 import Field from './Field/Field';
 import Footer from './Footer/Footer';
 import Header from './Header/Header';

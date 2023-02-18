@@ -3,7 +3,7 @@ import Cookies, { Cookie } from "universal-cookie";
 import AlertSuccess from "./components/Alerts/AlertSuccess";
 import AlertError from "./components/Alerts/AlertError";
 import useRoutes from "./AppRoutes";
-import getUserData from "./utils/getUserData";
+import getUserData from "./utils/getMyData";
 
 const App: FC = () => {
   const cookies: Cookie = new Cookies();

@@ -1,9 +1,38 @@
 import React, { FC } from "react";
 import User from "./User";
 import { FiMoreHorizontal } from "react-icons/fi";
+import { useParams } from "react-router-dom";
+import getDialogInfo from "../../../utils/getDialogInfo";
+import { useStore } from "effector-react";
+import { $currentDialogInfo } from "../../../store/currenDialogInfo";
+import { $userInfo } from "../../../store/userInfo";
+import getFellowData from "../../../utils/getFellowData";
+import { $fellowData } from "../../../store/fellowInfo";
 
 const Header: FC = () => {
+  const {dialogId} = useParams();
   const [isOpenMenu, setIsOpenMenu] = React.useState<boolean>(false);
+  const dialogInfo = useStore($currentDialogInfo);
+  const userInfo = useStore($userInfo);
+  const fellowData = useStore($fellowData);
+  
+  React.useEffect(() => {
+    if(dialogId) {
+      getDialogInfo(dialogId);
+    }
+  }, [dialogId]);
+
+  React.useEffect(() => {
+    if(dialogInfo.fellow && dialogInfo.creator) {
+      if(userInfo.userId === dialogInfo.creator) {
+       getFellowData(dialogInfo.fellow);
+        
+      } else {
+        getFellowData(dialogInfo.creator);
+      }
+    }
+  }, [dialogInfo, userInfo.userId]);
+
 
   const menuHandler = () => {
     setIsOpenMenu(!isOpenMenu);
@@ -11,7 +40,7 @@ const Header: FC = () => {
 
   return (
     <div className="flex justify-between items-center min-h-[70px] px-5 py-3 border-b-[1px] border-[rgba(112, 124, 151, 0.1)] border-solid relative">
-      <User src="/img/avatar.png" name="Nika Jerrardo" />
+      <User src={fellowData.avatar || "/img/avatar.png"} name={fellowData.userName!} />
       <div className="cursor-pointer" onClick={menuHandler}>
         <FiMoreHorizontal size="30" color="rgb(96,169,246)" />
       </div>
