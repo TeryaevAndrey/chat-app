@@ -16,6 +16,9 @@ const Header: FC = () => {
   const userInfo = useStore($userInfo);
   const fellowData = useStore($fellowData);
   
+
+  console.log(fellowData);
+  
   React.useEffect(() => {
     if(dialogId) {
       getDialogInfo(dialogId);
@@ -40,7 +43,7 @@ const Header: FC = () => {
 
   return (
     <div className="flex justify-between items-center min-h-[70px] px-5 py-3 border-b-[1px] border-[rgba(112, 124, 151, 0.1)] border-solid relative">
-      <User src={fellowData.avatar || "/img/avatar.png"} name={fellowData.userName!} />
+      <User src={fellowData.avatar || "/img/avatar.png"} name={fellowData.userName!} time={fellowData.isOnline ? "Online" : "Offline"} />
       <div className="cursor-pointer" onClick={menuHandler}>
         <FiMoreHorizontal size="30" color="rgb(96,169,246)" />
       </div>
