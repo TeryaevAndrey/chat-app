@@ -42,10 +42,6 @@ const LoginForm: FC = () => {
 
         setUserInfo(res.data.userInfo);
 
-        if(userInfo.userId) {
-          navigate(`/${userInfo.userId}/empty`)
-        }
-
         setTimeout(() => {
           setAlertSuccessInfo({
             isSuccess: false,
@@ -67,6 +63,12 @@ const LoginForm: FC = () => {
         }, 3000);
       });
   };
+
+  React.useEffect(() => {
+    if(userInfo.userId) {
+      navigate(`/${userInfo.userId}/empty`)
+    }
+  }, []);
 
   return (
     <section className="flex justify-center items-center h-screen">

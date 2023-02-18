@@ -1,11 +1,13 @@
 
 import React, { FC } from 'react';
+import { useParams } from 'react-router-dom';
 import getUserData from '../../utils/getUserData';
 import Field from './Field/Field';
 import Footer from './Footer/Footer';
 import Header from './Header/Header';
 
 const Main: FC = () => {
+  const {dialogId} = useParams();
 
   React.useEffect(() => {
     getUserData();
@@ -13,9 +15,17 @@ const Main: FC = () => {
 
   return (
     <div className="w-[70%] h-full flex flex-col justify-between">
-      <Header />
-      <Field />
-      <Footer />
+      {
+        dialogId !== "empty" ? (
+          <>
+            <Header />
+            <Field />
+            <Footer />
+          </>
+        ) : (
+          <div className="flex justify-center items-center h-full">Выберите диалог...</div>
+        )
+      }
     </div>
   );
 };

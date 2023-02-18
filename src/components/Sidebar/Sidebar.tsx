@@ -1,5 +1,7 @@
+import axios from "axios";
 import { useStore } from "effector-react";
 import React, { FC } from "react";
+import Cookies, { Cookie } from "universal-cookie";
 import { $foundDialogs } from "../../store/foundDialogs";
 import { $searchValue } from "../../store/search";
 import { $userInfo } from "../../store/userInfo";
@@ -15,10 +17,14 @@ const Sidebar: FC = () => {
   const searchValue = useStore($searchValue);
   const foundDialogs = useStore($foundDialogs);
   const userInfo = useStore($userInfo);
+  const cookies: Cookie = new Cookies();
 
   return (
     <div className="w-[30%] h-full border-r-[1px] border-[rgba(112, 124, 151, 0.1)] border-solid flex flex-col">
-      <ProfileInfo img={userInfo.avatar ? userInfo.avatar : "/img/avatar.png"} name={userInfo.userName} />
+      <ProfileInfo
+        img={userInfo.avatar ? userInfo.avatar : "/img/avatar.png"}
+        name={userInfo.userName}
+      />
       <Search />
       {searchValue.length ? (
         <>
