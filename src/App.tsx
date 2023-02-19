@@ -19,7 +19,7 @@ const App: FC = () => {
 
   React.useEffect(() => {
     getUserData();
-  }, [cookies]);
+  }, []);
 
   React.useEffect(() => {
     cookies.get("token") ? setIsAuth(true) : setIsAuth(false);
