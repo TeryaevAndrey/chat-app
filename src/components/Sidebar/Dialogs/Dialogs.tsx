@@ -3,15 +3,16 @@ import { useStore } from "effector-react";
 import React, { FC } from "react";
 import Cookies, { Cookie } from "universal-cookie";
 import { $myDialogs, setMyDialogs } from "../../../store/myDialogs";
-import { $searchValue } from "../../../store/search";
 import { $userInfo } from "../../../store/userInfo";
 import { IDialog } from "../../../types";
 import Dialog from "./Dialog/Dialog";
+import {useNavigate} from "react-router-dom"; 
 
 const Dialogs: FC = () => {
   const cookies: Cookie = new Cookies();
   const myDialogs = useStore($myDialogs);
   const userInfo = useStore($userInfo);
+  const navigate = useNavigate();
 
   React.useEffect(() => {
     axios
@@ -28,6 +29,10 @@ const Dialogs: FC = () => {
         console.log(err);
       });
   }, []);
+
+  const navigateToDialog = async (dialogId: string) => {
+    navigate(`/${userInfo.userId}/${dialogId}`)
+  }
 
   return (
     <div className="dialogs flex flex-col gap-3 mt-5 h-[45%] overflow-auto">
@@ -52,6 +57,7 @@ const Dialogs: FC = () => {
 
           return (
             <Dialog
+              onClick={() => navigateToDialog(dialog._id)}
               key={dialog._id}
               img={img}
               userName={userName}

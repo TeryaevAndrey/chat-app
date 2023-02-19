@@ -3,11 +3,13 @@ import React, { FC } from "react";
 interface IUser {
   img: string;
   userName: string;
+  onClick: React.MouseEventHandler
 }
 
-const User: FC<IUser> = ({ img, userName }) => {
+const User: FC<IUser> = ({ img, userName, onClick }) => {
   return (
     <div
+      onClick={onClick}
       className={`bg-["transparent"] w-full min-h-[50px] flex justify-between items-center px-4 py-1 cursor-pointer hover:bg-[rgba(96,169,246,0.15)] relative`}
     >
       <div className="w-[45px] h-[45px] overflow-hidden rounded-[50%]">

@@ -6,11 +6,13 @@ interface IDialog {
   lastMessage?: string | undefined;
   isNewMessage?: boolean | undefined;
   isActive?: boolean;
+
+  onClick?: React.MouseEventHandler
 }
 
-const Dialog: FC<IDialog> = ({ img, userName, lastMessage, isNewMessage, isActive }) => {
+const Dialog: FC<IDialog> = ({ img, userName, lastMessage, isNewMessage, isActive, onClick }) => {
   return (
-    <div className={`bg-[${isActive ? "rgba(96,169,246,0.15)" : "transparent"}] w-full min-h-[50px] flex justify-between items-center px-4 py-1 cursor-pointer hover:bg-[rgba(96,169,246,0.15)] relative`}>
+    <div onClick={onClick} className={`bg-[${isActive ? "rgba(96,169,246,0.15)" : "transparent"}] w-full min-h-[50px] flex justify-between items-center px-4 py-1 cursor-pointer hover:bg-[rgba(96,169,246,0.15)] relative`}>
       {
         isActive && <div className="block absolute left-0 w-[3px] h-full bg-[#60A9F6]"></div>
       }
