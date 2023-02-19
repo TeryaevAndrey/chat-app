@@ -3,10 +3,11 @@ import { useStore } from 'effector-react';
 import { $users } from '../../../store/users';
 import { IUser } from '../../../types';
 import User from './User/User';
+import axios from "axios";
 
 const Users: FC = () => {
   const users = useStore($users);
-
+  
   return (
     <div className="dialogs users flex flex-col gap-3 mt-5 h-[45%] overflow-auto">
       {
