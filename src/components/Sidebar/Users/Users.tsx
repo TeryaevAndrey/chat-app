@@ -27,6 +27,7 @@ const Users: FC = () => {
       headers: {
         Authorization: `Bearer ${cookies.get("token")}`
       }
+      
     }).then((res: AxiosResponse) => {
         navigate(`/${userInfo.userId}/${res.data.dialogId}`);
     }).catch((err) => {
