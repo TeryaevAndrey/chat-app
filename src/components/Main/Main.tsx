@@ -3,6 +3,7 @@ import React, { FC } from 'react';
 import { useParams } from 'react-router-dom';
 import { $dialogInfo } from '../../store/dialogInfo';
 import { $userInfo } from '../../store/userInfo';
+import { IMessage } from '../../types';
 import getDialogData from '../../utils/getDialogData';
 import getFellowData from '../../utils/getFellowData';
 import Field from './Field/Field';
@@ -13,6 +14,7 @@ const Main: FC = () => {
   const {dialogId} = useParams();
   const userInfo = useStore($userInfo);
   const dialogInfo = useStore($dialogInfo);
+  const [messages, setMessages] = React.useState<IMessage[] | []>([]);
 
   React.useEffect(() => {
     if(dialogId !== "empty") {
@@ -40,7 +42,7 @@ const Main: FC = () => {
         ) : (
           <>
             <Header />
-            <Field />
+            <Field messages={messages} setMessages={setMessages} />
             <Footer />
           </>
         )

@@ -20,6 +20,7 @@ export interface IDialog {
 }
 
 export interface IMessage {
+  _id: string;
   message: string;
   dialog: string;
   files?: [];
