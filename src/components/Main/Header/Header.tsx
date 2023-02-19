@@ -11,30 +11,11 @@ import { $fellowData } from "../../../store/fellowData";
 
 const Header: FC = () => {
   const [isOpenMenu, setIsOpenMenu] = React.useState<boolean>(false);
-  const {dialogId} = useParams();
-  const userInfo = useStore($userInfo);
-  const dialogInfo = useStore($dialogInfo);
   const fellowData = useStore($fellowData);
 
   const menuHandler = () => {
     setIsOpenMenu(!isOpenMenu);
   }
-
-  React.useEffect(() => {
-    getDialogData(dialogId!);
-  }, [dialogId]);
-
-  React.useEffect(() => {
-    if(userInfo.userId === dialogInfo.creator) {
-      if(dialogInfo.fellow) {
-        getFellowData(dialogInfo.fellow)
-      }
-    } else {
-      if(dialogInfo.creator) {
-        getFellowData(dialogInfo.creator);
-      }
-    }
-  }, [dialogInfo, userInfo.userId]);
 
   return (
     <div className="flex justify-between items-center min-h-[70px] px-5 py-3 border-b-[1px] border-[rgba(112, 124, 151, 0.1)] border-solid relative">
