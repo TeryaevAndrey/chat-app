@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 import { setAlertErrorInfo } from "../store/alerts/alertError";
 import { setAlertSuccessInfo } from "../store/alerts/alertSuccess";
 import { $userInfo } from "../store/userInfo";
-import getUserData from "../utils/getMyData";
+import getUserData from "../utils/getUserData";
 
 const SettingsPage: FC = () => {
   const userInfo = useStore($userInfo);

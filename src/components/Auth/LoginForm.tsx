@@ -9,7 +9,6 @@ import { useStore } from "effector-react";
 
 const LoginForm: FC = () => {
   const navigate = useNavigate();
-  const cookies: Cookie = new Cookies();
   const [userName, setUserName] = React.useState<string>("");
   const [password, setPassword] = React.useState<string>("");
   const userInfo = useStore($userInfo);
@@ -24,6 +23,8 @@ const LoginForm: FC = () => {
 
   const formHandler = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
+    
+    const cookies: Cookie = new Cookies();
 
     await axios
       .post(process.env.REACT_APP_PROXY + "/api/auth/entrance", {
@@ -41,6 +42,10 @@ const LoginForm: FC = () => {
         });
 
         setUserInfo(res.data.userInfo);
+
+        if(userInfo.userId) {
+          navigate(`/${userInfo.userId}/empty`)
+        }
 
         setTimeout(() => {
           setAlertSuccessInfo({
@@ -63,12 +68,6 @@ const LoginForm: FC = () => {
         }, 3000);
       });
   };
-
-  React.useEffect(() => {
-    if(userInfo.userId) {
-      navigate(`/${userInfo.userId}/empty`)
-    }
-  }, []);
 
   return (
     <section className="flex justify-center items-center h-screen">

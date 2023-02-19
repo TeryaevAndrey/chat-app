@@ -2,7 +2,7 @@ import axios from "axios";
 import Cookies, { Cookie } from "universal-cookie";
 import { setUserInfo } from "../store/userInfo";
 
-const getMyData = async () => {
+const getUserData = async () => {
   const cookies: Cookie = new Cookies();
 
   const res = await axios.get(
@@ -23,4 +23,4 @@ const getMyData = async () => {
   });
 };
 
-export default getMyData;
+export default getUserData;

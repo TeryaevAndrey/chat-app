@@ -1,8 +1,4 @@
-import axios from "axios";
-import { useStore } from "effector-react";
 import React, { FC } from "react";
-import Cookies, { Cookie } from "universal-cookie";
-import { $userInfo } from "../../../../store/userInfo";
 
 interface IDialog {
   img: string;
@@ -10,11 +6,11 @@ interface IDialog {
   lastMessage?: string | undefined;
   isNewMessage?: boolean | undefined;
   isActive?: boolean;
-  fellowId?: string;
-  onClick?: React.MouseEventHandler;
+
+  onClick?: React.MouseEventHandler
 }
 
-const Dialog: FC<IDialog> = ({ onClick, img, userName, lastMessage, isNewMessage, isActive }) => {
+const Dialog: FC<IDialog> = ({ img, userName, lastMessage, isNewMessage, isActive, onClick }) => {
   return (
     <div onClick={onClick} className={`bg-[${isActive ? "rgba(96,169,246,0.15)" : "transparent"}] w-full min-h-[50px] flex justify-between items-center px-4 py-1 cursor-pointer hover:bg-[rgba(96,169,246,0.15)] relative`}>
       {

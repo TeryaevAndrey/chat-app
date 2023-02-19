@@ -6,7 +6,7 @@ interface IUser {
   time?: string;
 }
 
-const User: FC<IUser> = ({ src, name, time }) => {
+const User: FC<IUser> = ({ src, name }) => {
   return (
     <div className="flex items-center gap-2">
       <div className="w-[45px] h-[45px] rounded-[50%] overflow-hidden">
@@ -15,7 +15,7 @@ const User: FC<IUser> = ({ src, name, time }) => {
       <div className="flex flex-col">
         <span className="inline-block text-[16px] font-bold">{name}</span>
         <span className="inline-block text-[14px] font-medium text-[#707C97]">
-          {time}
+          Был(а) в сети 12 минут назад
         </span>
       </div>
     </div>

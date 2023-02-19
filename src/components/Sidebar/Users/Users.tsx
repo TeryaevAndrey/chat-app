@@ -3,61 +3,53 @@ import { useStore } from 'effector-react';
 import { $users } from '../../../store/users';
 import { IUser } from '../../../types';
 import User from './User/User';
-import Cookies, { Cookie } from 'universal-cookie';
+import axios, {AxiosResponse} from "axios";
+import Cookies, {Cookie} from "universal-cookie";
 import { $userInfo } from '../../../store/userInfo';
-import axios from 'axios';
-import { setCurrentDialogId } from '../../../store/currentDialogId';
-import { useNavigate } from 'react-router-dom';
-import io from '../../../core/socket';
+import {useNavigate} from "react-router-dom";
+import { setAlertErrorInfo } from '../../../store/alerts/alertError';
 
 const Users: FC = () => {
   const users = useStore($users);
-  const userInfo = useStore($userInfo);
   const cookies: Cookie = new Cookies();
+  const userInfo = useStore($userInfo)
   const navigate = useNavigate();
 
-  const createNewDialog = async (
-    fellow: string,
-    fellowAvatar: string,
-    fellowName: string,
-    lastMessage: string | undefined
-  ) => {
-    try {
-      const res = await axios.post(
-        process.env.REACT_APP_PROXY + "/api/dialogs/new-dialog",
-        {
-          creator: userInfo.userId,
-          fellow,
-          creatorAvatar: userInfo.avatar,
-          fellowAvatar,
-          creatorName: userInfo.userName,
-          fellowName,
-          lastMessage,
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${cookies.get("token")}`,
-          },
-        }
-      );
-
-      navigate(`/${userInfo.userId}/${res.data.dialogId}`);
-
-      io.on("connection", (socket) => {
-        socket.join(res.data.dialogId);
+  const createNewDialog = async (fellow: string, fellowAvatar: string, fellowName: string) => {
+    await axios.post(process.env.REACT_APP_PROXY + "/api/dialogs/new-dialog", {
+      creator: userInfo.userId,
+      fellow,
+      creatorAvatar: userInfo.avatar,
+      fellowAvatar,
+      creatorName: userInfo.userName,
+      fellowName,
+    }, {
+      headers: {
+        Authorization: `Bearer ${cookies.get("token")}`
+      }
+      
+    }).then((res: AxiosResponse) => {
+        navigate(`/${userInfo.userId}/${res.data.dialogId}`);
+    }).catch((err) => {
+      setAlertErrorInfo({
+        isError: true, 
+        title: err.response.data.message
       });
 
-      return setCurrentDialogId(res.data.dialogId);
-    } catch (err) {
-      console.log(err);
-    }
-  };
+      setTimeout(() => {
+        setAlertErrorInfo({
+          isError: false,
+          title: undefined
+        })
+      }, 3000 )
+    })
+  }
 
   return (
     <div className="dialogs users flex flex-col gap-3 mt-5 h-[45%] overflow-auto">
       {
         users.map((user: IUser) => {
-          return <User onClick={() => createNewDialog(user._id, user.avatar || "/img/avatar.png", user.userName, undefined)} key={user._id} img={user.avatar.length === 0 ? "/img/avatar.png" : user.avatar} userName={user.userName} />
+          return <User onClick={() => createNewDialog(user._id, user.avatar || "/img/avatar.png", user.userName)} key={user._id} img={user.avatar.length === 0 ? "/img/avatar.png" : user.avatar} userName={user.userName} />
         })
       }      
     </div>
