@@ -32,7 +32,7 @@ const Users: FC = () => {
           fellowAvatar,
           creatorName: userInfo.userName,
           fellowName,
-          lastMessage: lastMessage,
+          lastMessage,
         },
         {
           headers: {
@@ -57,7 +57,7 @@ const Users: FC = () => {
     <div className="dialogs users flex flex-col gap-3 mt-5 h-[45%] overflow-auto">
       {
         users.map((user: IUser) => {
-          return <User onClick={() => createNewDialog(user._id, user.avatar, user.userName, undefined)} key={user._id} img={user.avatar.length === 0 ? "/img/avatar.png" : user.avatar} userName={user.userName} />
+          return <User onClick={() => createNewDialog(user._id, user.avatar || "/img/avatar.png", user.userName, undefined)} key={user._id} img={user.avatar.length === 0 ? "/img/avatar.png" : user.avatar} userName={user.userName} />
         })
       }      
     </div>

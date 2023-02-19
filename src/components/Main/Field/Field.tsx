@@ -37,12 +37,10 @@ const Field: FC = () => {
       });
   }, []);
 
-  React.useEffect(() => {
     io.on("SERVER:NEW-MESSAGE", (message) => {
       console.log(message);
       setMessages(prev => [...prev, message]);
     });
-  }, []);
 
   return (
     <div className="field w-full h-full overflow-auto flex">

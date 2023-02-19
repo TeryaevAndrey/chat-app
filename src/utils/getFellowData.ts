@@ -11,7 +11,7 @@ const getFellowData = async(userId: string) => {
     }
   });
 
-  setFellowData({...res.data.user});
+  setFellowData(res.data.user);
 }
 
 export default getFellowData;

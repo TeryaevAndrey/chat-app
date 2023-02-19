@@ -4,6 +4,7 @@ import React, { FC } from "react";
 import { AiOutlinePaperClip } from "react-icons/ai";
 import { BsFillEmojiSmileFill } from "react-icons/bs";
 import { MdSend } from "react-icons/md";
+import { useParams } from "react-router-dom";
 import Cookies, { Cookie } from "universal-cookie";
 import io from "../../../core/socket";
 import { $currentDialogId } from "../../../store/currentDialogId";
@@ -12,7 +13,7 @@ import { $userInfo } from "../../../store/userInfo";
 const Footer: FC = () => {
   const cookies: Cookie = new Cookies();
   const userInfo = useStore($userInfo);
-  const currentDialogId = useStore($currentDialogId);
+  const {dialogId} = useParams();
   const [messageValue, setMessageValue] = React.useState<any>("");
 
   const onChangeMessageValue = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -27,7 +28,7 @@ const Footer: FC = () => {
         process.env.REACT_APP_PROXY + "/api/messages/new-message",
         {
           message: messageValue,
-          dialog: currentDialogId,
+          dialog: dialogId,
           files: [],
           sender: userInfo.userId,
         },
