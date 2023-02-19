@@ -1,17 +1,44 @@
 import React, { FC } from "react";
 import User from "./User";
 import { FiMoreHorizontal } from "react-icons/fi";
+import { useParams } from "react-router-dom";
+import { useStore } from "effector-react";
+import { $userInfo } from "../../../store/userInfo";
+import getDialogData from "../../../utils/getDialogData";
+import { $dialogInfo } from "../../../store/dialogInfo";
+import getFellowData from "../../../utils/getFellowData";
+import { $fellowData } from "../../../store/fellowData";
 
 const Header: FC = () => {
   const [isOpenMenu, setIsOpenMenu] = React.useState<boolean>(false);
+  const {dialogId} = useParams();
+  const userInfo = useStore($userInfo);
+  const dialogInfo = useStore($dialogInfo);
+  const fellowData = useStore($fellowData);
 
   const menuHandler = () => {
     setIsOpenMenu(!isOpenMenu);
   }
 
+  React.useEffect(() => {
+    getDialogData(dialogId!);
+  }, [dialogId]);
+
+  React.useEffect(() => {
+    if(userInfo.userId === dialogInfo.creator) {
+      if(dialogInfo.fellow) {
+        getFellowData(dialogInfo.fellow)
+      }
+    } else {
+      if(dialogInfo.creator) {
+        getFellowData(dialogInfo.creator);
+      }
+    }
+  }, [dialogInfo, userInfo.userId]);
+
   return (
     <div className="flex justify-between items-center min-h-[70px] px-5 py-3 border-b-[1px] border-[rgba(112, 124, 151, 0.1)] border-solid relative">
-      <User src="/img/avatar.png" name="Nika Jerrardo" />
+      <User src={fellowData.avatar || "/img/avatar.png"} name={fellowData.userName || ""} isOnline={fellowData.isOnline!} />
       <div className="cursor-pointer" onClick={menuHandler}>
         <FiMoreHorizontal size="30" color="rgb(96,169,246)" />
       </div>
