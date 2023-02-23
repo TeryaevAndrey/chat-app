@@ -1,6 +1,7 @@
 import { useStore } from 'effector-react';
 import React, { FC } from 'react';
 import { useParams } from 'react-router-dom';
+import socket from '../../core/socket';
 import { $dialogInfo } from '../../store/dialogInfo';
 import { $userInfo } from '../../store/userInfo';
 import { IMessage } from '../../types';
@@ -33,6 +34,10 @@ const Main: FC = () => {
       }
     }
   }, [dialogInfo, userInfo.userId]);
+
+  React.useEffect(() => {
+    socket.emit("ROOM:JOIN", dialogId);
+  }, [dialogId]);
 
   return (
     <div className="w-[70%] h-full flex flex-col justify-between">

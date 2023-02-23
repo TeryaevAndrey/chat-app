@@ -6,6 +6,7 @@ import { BsFillEmojiSmileFill } from "react-icons/bs";
 import {MdSend} from "react-icons/md";
 import { useParams } from "react-router-dom";
 import Cookies, { Cookie } from "universal-cookie";
+import socket from "../../../core/socket";
 import { setAlertErrorInfo } from "../../../store/alerts/alertError";
 import { $userInfo } from "../../../store/userInfo";
 
@@ -21,6 +22,12 @@ const Footer: FC = () => {
 
   const sendMessage = async(e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
+
+    socket.emit("ROOM:NEW-MESSAGE", {
+      message: messageValue,
+      dialog: dialogId,
+      sender: userInfo.userId
+    })
 
     await axios.post(process.env.REACT_APP_PROXY + "/api/messages/new-message", {
         message: messageValue,

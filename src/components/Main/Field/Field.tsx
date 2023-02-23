@@ -1,11 +1,5 @@
-import axios, { AxiosResponse } from "axios";
-import { useStore } from "effector-react";
 import React, { FC } from "react";
-import { useParams } from "react-router-dom";
-import Cookies, { Cookie } from "universal-cookie";
-import { setAlertErrorInfo } from "../../../store/alerts/alertError";
-import { $fellowData } from "../../../store/fellowData";
-import { $userInfo } from "../../../store/userInfo";
+import socket from "../../../core/socket";
 import { IMessage } from "../../../types";
 import Message from "./Message";
 
@@ -15,6 +9,12 @@ interface IField {
 }
 
 const Field: FC<IField> = ({messages, setMessages}) => {
+  React.useEffect(() => {
+    socket.on("ROOM:NEW-MESSAGE", (message) => {
+      console.log(message);
+    })
+  }, []);
+
   return (
     <div className="field w-full h-full overflow-auto flex">
       <div className="w-full h-auto flex flex-col mx-5 my-5 mt-auto">
