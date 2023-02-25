@@ -15,7 +15,6 @@ const Main: FC = () => {
   const {dialogId} = useParams();
   const userInfo = useStore($userInfo);
   const dialogInfo = useStore($dialogInfo);
-  const [messages, setMessages] = React.useState<IMessage[] | []>([]);
 
   React.useEffect(() => {
     if(dialogId !== "empty") {
@@ -47,7 +46,7 @@ const Main: FC = () => {
         ) : (
           <>
             <Header />
-            <Field messages={messages} setMessages={setMessages} />
+            <Field />
             <Footer />
           </>
         )

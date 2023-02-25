@@ -1,10 +1,9 @@
 import { setAlertErrorInfo } from "./../store/alerts/alertError";
 import axios, {AxiosResponse} from "axios";
-import Cookies, { Cookie } from "universal-cookie";
 import { setDialogInfo } from "../store/dialogInfo";
+import { cookies } from "../core/cookies";
 
 const getDialogData = async (dialogId: string) => {
-  const cookies: Cookie = new Cookies();
 
   await axios.post(process.env.REACT_APP_PROXY + "/api/dialogs/get-dialog-info", {
     dialogId

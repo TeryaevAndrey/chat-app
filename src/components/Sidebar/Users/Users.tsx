@@ -4,14 +4,15 @@ import { $users } from '../../../store/users';
 import { IUser } from '../../../types';
 import User from './User/User';
 import axios, {AxiosResponse} from "axios";
-import Cookies, {Cookie} from "universal-cookie";
 import { $userInfo } from '../../../store/userInfo';
 import {useNavigate} from "react-router-dom";
 import { setAlertErrorInfo } from '../../../store/alerts/alertError';
+import socket from '../../../core/socket';
+import { removeMessages } from '../../../store/messages';
+import { cookies } from '../../../core/cookies';
 
 const Users: FC = () => {
   const users = useStore($users);
-  const cookies: Cookie = new Cookies();
   const userInfo = useStore($userInfo)
   const navigate = useNavigate();
 
@@ -29,6 +30,8 @@ const Users: FC = () => {
       }
       
     }).then((res: AxiosResponse) => {
+        removeMessages([]);
+
         navigate(`/${userInfo.userId}/${res.data.dialogId}`);
     }).catch((err) => {
       setAlertErrorInfo({

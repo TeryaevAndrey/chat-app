@@ -1,30 +1,53 @@
+import { useStore } from "effector-react";
 import React, { FC } from "react";
+import { useParams } from "react-router-dom";
 import socket from "../../../core/socket";
-import { IMessage } from "../../../types";
+import { $fellowData } from "../../../store/fellowData";
+import { $messages, setMessages } from "../../../store/messages";
+import { $userInfo } from "../../../store/userInfo";
 import Message from "./Message";
 
-interface IField {
-  messages: IMessage[] | [];
-  setMessages: Function
-}
+const Field: FC = () => {
+  const messages = useStore($messages);
+  const userInfo = useStore($userInfo);
+  const fellowData = useStore($fellowData);
+  const { dialogId } = useParams();
 
-const Field: FC<IField> = ({messages, setMessages}) => {
   React.useEffect(() => {
-    socket.on("ROOM:NEW-MESSAGE", (message) => {
-      console.log(message);
-    })
-  }, []);
+    const message = () => {
+      socket.on("ROOM:NEW-MESSAGE", (message) => {
+        if (dialogId === message.dialog) {
+          return setMessages(message);
+        }
+      });
+
+      return () => {
+        socket.off("connect");
+        socket.off("disconnect");
+        socket.off("pong");
+      };
+    };
+
+    message();
+  }, [dialogId]);
 
   return (
     <div className="field w-full h-full overflow-auto flex">
       <div className="w-full h-auto flex flex-col mx-5 my-5 mt-auto">
-      <Message
+        {messages.map((msg, index) => {
+          return (
+            <Message
+              key={index}
               avatarImg={
-                "/img/avatar.png"
+                userInfo.userId === msg.sender
+                  ? userInfo.avatar || "/img/avatar.png"
+                  : fellowData.avatar || "/img/avatar.png"
               }
-              message="adsad"
-              isMyMessage={true}
+              message={msg.message}
+              isMyMessage={userInfo.userId === msg.sender ? true : false}
             />
+          );
+        })}
       </div>
     </div>
   );

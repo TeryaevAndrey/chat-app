@@ -18,7 +18,10 @@ const AppRoutes = (isAuth: boolean) => {
         <Route path="/auth/reg" element={<RegPage />} />
         <Route path="/settings/:id" element={<SettingsPage />} />
 
-        <Route path="*" element={<Navigate to={`/${userInfo.userId}/empty`} replace />} />
+        <Route
+          path="*"
+          element={<Navigate to={`/${userInfo.userId}/empty`} replace />}
+        />
       </Routes>
     );
   }
