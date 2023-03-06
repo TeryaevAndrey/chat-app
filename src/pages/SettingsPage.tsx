@@ -15,8 +15,8 @@ const SettingsPage: FC = () => {
   const [newPassword, setNewPassword] = React.useState<string>("");
 
   React.useEffect(() => {
-    getUserData();
-  }, []);
+    getUserData(userInfo.token!);
+  }, [userInfo.token]);
 
   const avatarPreview = userInfo.avatar ? userInfo.avatar : "/img/avatar.png";
 

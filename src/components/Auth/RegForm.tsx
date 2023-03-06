@@ -1,6 +1,5 @@
 import React, { FC } from "react";
-import axios, {AxiosResponse} from "axios";
-import Cookies, { Cookie } from "universal-cookie";
+import axios, { AxiosResponse } from "axios";
 import { useNavigate } from "react-router-dom";
 import { setAlertSuccessInfo } from "../../store/alerts/alertSuccess";
 import { setAlertErrorInfo } from "../../store/alerts/alertError";
@@ -9,63 +8,61 @@ import { useStore } from "effector-react";
 
 const RegForm: FC = () => {
   const navigate = useNavigate();
-  const cookies: Cookie = new Cookies();
   const [userName, setUserName] = React.useState<string>("");
   const [password, setPassword] = React.useState<string>("");
   const userInfo = useStore($userInfo);
 
   const onChangeUserName = (e: React.ChangeEvent<HTMLInputElement>): void => {
     setUserName(e.target.value);
-  }
+  };
 
   const onChangePassword = (e: React.ChangeEvent<HTMLInputElement>): void => {
     setPassword(e.target.value);
-  }
+  };
 
   const formHandler = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    await axios.post(process.env.REACT_APP_PROXY + "/api/auth/reg", {
-      userName, 
-      password
-    }).then(async (res: AxiosResponse) => {
-      await cookies.set("token", res.data.userInfo.token);
+    await axios
+      .post(process.env.REACT_APP_PROXY + "/api/auth/reg", {
+        userName,
+        password,
+      })
+      .then(async (res: AxiosResponse) => {
+        localStorage.setItem("userInfo", JSON.stringify(res.data.userInfo));
 
-      localStorage.setItem("userInfo", JSON.stringify(res.data.userInfo));
-
-      setAlertSuccessInfo({
-        isSuccess: true,
-        title: res.data.message
-      });
-
-      setUserInfo(res.data.userInfo);
-      
-      if(userInfo.userId) {
-        navigate(`/${userInfo.userId}/empty`)
-      }
-
-      setTimeout(() => {
         setAlertSuccessInfo({
-          isSuccess: false, 
-          title: undefined
+          isSuccess: true,
+          title: res.data.message,
         });
-      }, 3000);
-    }).catch((err) => {
-      console.log(err);
 
-      setAlertErrorInfo({
-        isError: true, 
-        title: err.response.data.message
-      });
+        setUserInfo(res.data.userInfo);
 
-      setTimeout(() => {
+        navigate(`/${res.data.userInfo.userId}/empty`);
+
+        setTimeout(() => {
+          setAlertSuccessInfo({
+            isSuccess: false,
+            title: undefined,
+          });
+        }, 3000);
+      })
+      .catch((err) => {
+        console.log(err);
+
         setAlertErrorInfo({
-          isError: false,
-          title: undefined
+          isError: true,
+          title: err.response.data.message,
         });
-      }, 3000);
-    });
-  }
-  
+
+        setTimeout(() => {
+          setAlertErrorInfo({
+            isError: false,
+            title: undefined,
+          });
+        }, 3000);
+      });
+  };
+
   return (
     <section className="flex justify-center items-center h-screen">
       <div className="px-6 text-gray-800">

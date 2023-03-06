@@ -1,15 +1,14 @@
 import axios, { AxiosResponse } from "axios";
 import { useStore } from "effector-react";
 import React, { FC } from "react";
-import Cookies, { Cookie } from "universal-cookie";
 import { $myDialogs, setMyDialogs } from "../../../store/myDialogs";
 import { $userInfo } from "../../../store/userInfo";
 import { IDialog } from "../../../types";
 import Dialog from "./Dialog/Dialog";
-import {useNavigate} from "react-router-dom"; 
+import { useNavigate } from "react-router-dom";
+import { removeMessages } from "../../../store/messages";
 
 const Dialogs: FC = () => {
-  const cookies: Cookie = new Cookies();
   const myDialogs = useStore($myDialogs);
   const userInfo = useStore($userInfo);
   const navigate = useNavigate();
@@ -18,7 +17,7 @@ const Dialogs: FC = () => {
     axios
       .get(process.env.REACT_APP_PROXY + "/api/dialogs/get-my-dialogs", {
         headers: {
-          Authorization: `Bearer ${cookies.get("token")}`,
+          Authorization: `Bearer ${userInfo.token}`,
         },
       })
       .then((res: AxiosResponse) => {
@@ -31,8 +30,9 @@ const Dialogs: FC = () => {
   }, []);
 
   const navigateToDialog = async (dialogId: string) => {
-    navigate(`/${userInfo.userId}/${dialogId}`)
-  }
+    removeMessages([]);
+    navigate(`/${userInfo.userId}/${dialogId}`);
+  };
 
   return (
     <div className="dialogs flex flex-col gap-3 mt-5 h-[45%] overflow-auto">

@@ -1,10 +1,8 @@
 import { setAlertErrorInfo } from "./../store/alerts/alertError";
 import axios, { AxiosResponse } from "axios";
-import Cookies, { Cookie } from "universal-cookie";
 import { setFellowData } from "../store/fellowData";
 
-const getFellowData = async (userId: string) => {
-  const cookies: Cookie = new Cookies();
+const getFellowData = async (userId: string, token: string) => {
 
   await axios.post(
     process.env.REACT_APP_PROXY + "/api/users/get-user",
@@ -13,7 +11,7 @@ const getFellowData = async (userId: string) => {
     },
     {
       headers: {
-        Authorization: `Bearer ${cookies.get("token")}`,
+        Authorization: `Bearer ${token}`,
       },
     }
   ).then((res: AxiosResponse) => {

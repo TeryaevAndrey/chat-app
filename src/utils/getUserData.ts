@@ -1,20 +1,18 @@
 import axios from "axios";
-import Cookies, { Cookie } from "universal-cookie";
 import { setUserInfo } from "../store/userInfo";
 
-const getUserData = async () => {
-  const cookies: Cookie = new Cookies();
-
+const getUserData = async (token: string) => {
   const res = await axios.get(
     process.env.REACT_APP_PROXY + "/api/users/get-my-data",
     {
       headers: {
-        Authorization: `Bearer ${cookies.get("token")}`,
+        Authorization: `Bearer ${token}`,
       },
     }
   );
 
-  setUserInfo({
+  return setUserInfo({
+    token,
     avatar: res.data.avatar,
     userId: res.data.userId,
     userName: res.data.userName,

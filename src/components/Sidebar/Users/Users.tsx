@@ -4,14 +4,13 @@ import { $users } from '../../../store/users';
 import { IUser } from '../../../types';
 import User from './User/User';
 import axios, {AxiosResponse} from "axios";
-import Cookies, {Cookie} from "universal-cookie";
 import { $userInfo } from '../../../store/userInfo';
 import {useNavigate} from "react-router-dom";
 import { setAlertErrorInfo } from '../../../store/alerts/alertError';
+import { removeMessages } from '../../../store/messages';
 
 const Users: FC = () => {
   const users = useStore($users);
-  const cookies: Cookie = new Cookies();
   const userInfo = useStore($userInfo)
   const navigate = useNavigate();
 
@@ -25,10 +24,12 @@ const Users: FC = () => {
       fellowName,
     }, {
       headers: {
-        Authorization: `Bearer ${cookies.get("token")}`
+        Authorization: `Bearer ${userInfo.token}`
       }
       
     }).then((res: AxiosResponse) => {
+        removeMessages([]);
+
         navigate(`/${userInfo.userId}/${res.data.dialogId}`);
     }).catch((err) => {
       setAlertErrorInfo({

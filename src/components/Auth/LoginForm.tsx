@@ -3,7 +3,6 @@ import { useNavigate } from "react-router-dom";
 import axios, { AxiosResponse } from "axios";
 import { setAlertSuccessInfo } from "../../store/alerts/alertSuccess";
 import { $userInfo, setUserInfo } from "../../store/userInfo";
-import Cookies, { Cookie } from "universal-cookie";
 import { setAlertErrorInfo } from "../../store/alerts/alertError";
 import { useStore } from "effector-react";
 
@@ -23,8 +22,6 @@ const LoginForm: FC = () => {
 
   const formHandler = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    
-    const cookies: Cookie = new Cookies();
 
     await axios
       .post(process.env.REACT_APP_PROXY + "/api/auth/entrance", {
@@ -32,8 +29,6 @@ const LoginForm: FC = () => {
         password,
       })
       .then(async (res: AxiosResponse) => {
-        await cookies.set("token", res.data.userInfo.token);
-
         localStorage.setItem("userInfo", JSON.stringify(res.data.userInfo));
 
         setAlertSuccessInfo({
@@ -43,9 +38,7 @@ const LoginForm: FC = () => {
 
         setUserInfo(res.data.userInfo);
 
-        if(userInfo.userId) {
-          navigate(`/${userInfo.userId}/empty`)
-        }
+        navigate(`/${res.data.userInfo.userId}/empty`)
 
         setTimeout(() => {
           setAlertSuccessInfo({
