@@ -5,7 +5,6 @@ import { setAlertSuccessInfo } from "../../store/alerts/alertSuccess";
 import { $userInfo, setUserInfo } from "../../store/userInfo";
 import { setAlertErrorInfo } from "../../store/alerts/alertError";
 import { useStore } from "effector-react";
-import { cookies } from "../../core/cookies";
 
 const LoginForm: FC = () => {
   const navigate = useNavigate();
@@ -30,8 +29,6 @@ const LoginForm: FC = () => {
         password,
       })
       .then(async (res: AxiosResponse) => {
-        await cookies.set("token", res.data.userInfo.token);
-
         localStorage.setItem("userInfo", JSON.stringify(res.data.userInfo));
 
         setAlertSuccessInfo({

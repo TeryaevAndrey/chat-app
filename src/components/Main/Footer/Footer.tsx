@@ -1,11 +1,9 @@
 import axios, { AxiosResponse } from "axios";
 import { useStore } from "effector-react";
 import React, { FC } from "react";
-import { AiOutlinePaperClip } from "react-icons/ai";
 import { BsFillEmojiSmileFill } from "react-icons/bs";
 import { MdSend } from "react-icons/md";
 import { useParams } from "react-router-dom";
-import { cookies } from "../../../core/cookies";
 import socket from "../../../core/socket";
 import { setAlertErrorInfo } from "../../../store/alerts/alertError";
 import { $messages, setMessages } from "../../../store/messages";
@@ -40,7 +38,7 @@ const Footer: FC = () => {
         },
         {
           headers: {
-            Authorization: `Bearer ${cookies.get("token")}`,
+            Authorization: `Bearer ${userInfo.token}`,
           },
         }
       )

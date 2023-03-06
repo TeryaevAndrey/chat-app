@@ -1,6 +1,7 @@
 import {createEvent, createStore} from "effector";
 
 interface IUserInfo {
+  token?: string | undefined;
   avatar?: string | undefined;
   userId: string | undefined;
   userName: string | undefined;
@@ -11,6 +12,7 @@ interface IUserInfo {
 export const setUserInfo = createEvent<IUserInfo>();
 
 export const $userInfo = createStore<IUserInfo>({
+  token: undefined,
   avatar: undefined,
   userId: undefined,
   userName: undefined,

@@ -1,8 +1,21 @@
+import { useStore } from "effector-react";
 import React, { FC } from "react";
 import Main from "../components/Main/Main";
 import Sidebar from "../components/Sidebar/Sidebar";
+import { $userInfo, setUserInfo } from "../store/userInfo";
+import getUserData from "../utils/getUserData";
 
 const MainPage: FC = () => {
+  const userInfo = useStore($userInfo);
+
+  React.useEffect(() => {
+    getUserData(userInfo.token!);
+  }, [userInfo.token]);
+
+
+
+  console.log(userInfo);
+
   return (
     <div className="flex justify-center items-center h-screen">
       <div className="w-full h-full lg:w-[60%] lg:h-[80%] bg-white rounded-[7px]">

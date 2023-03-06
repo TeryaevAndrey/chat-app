@@ -1,15 +1,14 @@
 import { setAlertErrorInfo } from "./../store/alerts/alertError";
 import axios, {AxiosResponse} from "axios";
 import { setDialogInfo } from "../store/dialogInfo";
-import { cookies } from "../core/cookies";
 
-const getDialogData = async (dialogId: string) => {
+const getDialogData = async (dialogId: string, token: string) => {
 
   await axios.post(process.env.REACT_APP_PROXY + "/api/dialogs/get-dialog-info", {
     dialogId
   }, {
     headers: {
-      Authorization: `Bearer ${cookies.get("token")}`
+      Authorization: `Bearer ${token}`
     }
   }).then((res: AxiosResponse) => {
     setDialogInfo(res.data.dialog);

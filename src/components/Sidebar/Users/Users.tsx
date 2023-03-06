@@ -7,9 +7,7 @@ import axios, {AxiosResponse} from "axios";
 import { $userInfo } from '../../../store/userInfo';
 import {useNavigate} from "react-router-dom";
 import { setAlertErrorInfo } from '../../../store/alerts/alertError';
-import socket from '../../../core/socket';
 import { removeMessages } from '../../../store/messages';
-import { cookies } from '../../../core/cookies';
 
 const Users: FC = () => {
   const users = useStore($users);
@@ -26,7 +24,7 @@ const Users: FC = () => {
       fellowName,
     }, {
       headers: {
-        Authorization: `Bearer ${cookies.get("token")}`
+        Authorization: `Bearer ${userInfo.token}`
       }
       
     }).then((res: AxiosResponse) => {

@@ -4,7 +4,6 @@ import { useParams } from 'react-router-dom';
 import socket from '../../core/socket';
 import { $dialogInfo } from '../../store/dialogInfo';
 import { $userInfo } from '../../store/userInfo';
-import { IMessage } from '../../types';
 import getDialogData from '../../utils/getDialogData';
 import getFellowData from '../../utils/getFellowData';
 import Field from './Field/Field';
@@ -18,18 +17,18 @@ const Main: FC = () => {
 
   React.useEffect(() => {
     if(dialogId !== "empty") {
-      getDialogData(dialogId!);
+      getDialogData(dialogId!, userInfo.token!);
     }
   }, [dialogId]);
 
   React.useEffect(() => {
     if(userInfo.userId === dialogInfo.creator) {
       if(dialogInfo.fellow) {
-        getFellowData(dialogInfo.fellow)
+        getFellowData(dialogInfo.fellow, userInfo.token!)
       }
     } else {
       if(dialogInfo.creator) {
-        getFellowData(dialogInfo.creator);
+        getFellowData(dialogInfo.creator, userInfo.token!);
       }
     }
   }, [dialogInfo, userInfo.userId]);

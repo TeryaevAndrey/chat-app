@@ -1,24 +1,24 @@
 import axios from "axios";
+import { useStore } from "effector-react";
 import React from "react";
 import { AiOutlinePoweroff } from "react-icons/ai";
 import { useNavigate } from "react-router-dom";
-import { cookies } from "../../core/cookies";
-import { setUserInfo } from "../../store/userInfo";
+import { $userInfo, setUserInfo } from "../../store/userInfo";
 
 const Exit = () => {
   const navigate = useNavigate();
+  const userInfo = useStore($userInfo);
 
   const exitFromAccount = async (e: React.MouseEvent<HTMLElement>) => {
     
     await axios.get(process.env.REACT_APP_PROXY + "/api/auth/exit", {
       headers: {
-        Authorization: `Bearer ${cookies.get("token")}`
+        Authorization: `Bearer ${userInfo.token}`
       }
     })
 
-    await cookies.remove("token");
-
     setUserInfo({
+      token: undefined,
       avatar: undefined,
       userId: undefined,
       userName: undefined,

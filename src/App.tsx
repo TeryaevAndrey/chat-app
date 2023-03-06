@@ -2,19 +2,27 @@ import React, { FC } from "react";
 import AlertSuccess from "./components/Alerts/AlertSuccess";
 import AlertError from "./components/Alerts/AlertError";
 import useRoutes from "./AppRoutes";
-import getUserData from "./utils/getUserData";
-import { cookies } from "./core/cookies";
+import { useStore } from "effector-react";
+import { $userInfo, setUserInfo } from "./store/userInfo";
 
 const App: FC = () => {
   const [isAuth, setIsAuth] = React.useState<boolean>(false);
+  const userInfo = useStore($userInfo);
 
   React.useEffect(() => {
-    getUserData();
+    JSON.parse(localStorage.getItem("userInfo") || "{}").token
+      ? setIsAuth(true)
+      : setIsAuth(false);
+  }, [userInfo.token]);
+
+  React.useEffect(() => {
+    if (JSON.parse(localStorage.getItem("userInfo") || "{}").token) {
+      setUserInfo({
+        ...userInfo,
+        token: JSON.parse(localStorage.getItem("userInfo") || "{}").token,
+      });
+    }
   }, []);
-
-  React.useEffect(() => {
-    cookies.get("token") ? setIsAuth(true) : setIsAuth(false);
-  }, [cookies]);
 
   return (
     <div className="min-h-screen">

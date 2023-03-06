@@ -6,9 +6,7 @@ import { $userInfo } from "../../../store/userInfo";
 import { IDialog } from "../../../types";
 import Dialog from "./Dialog/Dialog";
 import { useNavigate } from "react-router-dom";
-import socket from "../../../core/socket";
 import { removeMessages } from "../../../store/messages";
-import { cookies } from "../../../core/cookies";
 
 const Dialogs: FC = () => {
   const myDialogs = useStore($myDialogs);
@@ -19,7 +17,7 @@ const Dialogs: FC = () => {
     axios
       .get(process.env.REACT_APP_PROXY + "/api/dialogs/get-my-dialogs", {
         headers: {
-          Authorization: `Bearer ${cookies.get("token")}`,
+          Authorization: `Bearer ${userInfo.token}`,
         },
       })
       .then((res: AxiosResponse) => {
