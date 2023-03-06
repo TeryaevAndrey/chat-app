@@ -43,15 +43,15 @@ const Footer: FC = () => {
         }
       )
       .then((res: AxiosResponse) => {
-        // @ts-ignore
-
-        setMessages({
+        setMessages([...messages, {
           _id: res.data.newMessage._id,
           message: res.data.newMessage.message,
           dialog: res.data.newMessage.dialog,
           files: res.data.newMessage.files,
           sender: res.data.newMessage.sender,
-        });
+        }]);
+
+        console.log(messages);
       })
       .catch((err) => {
         setAlertErrorInfo({

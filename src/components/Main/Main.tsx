@@ -6,6 +6,7 @@ import { $dialogInfo } from '../../store/dialogInfo';
 import { $userInfo } from '../../store/userInfo';
 import getDialogData from '../../utils/getDialogData';
 import getFellowData from '../../utils/getFellowData';
+import getMessages from '../../utils/getMessages';
 import Field from './Field/Field';
 import Footer from './Footer/Footer';
 import Header from './Header/Header';
@@ -35,6 +36,12 @@ const Main: FC = () => {
 
   React.useEffect(() => {
     socket.emit("ROOM:JOIN", dialogId);
+  }, [dialogId]);
+
+  React.useEffect(() => {
+    if(dialogId && userInfo.token) {
+      getMessages(dialogId, userInfo.token);
+    }
   }, [dialogId]);
 
   return (
