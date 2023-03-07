@@ -6,6 +6,7 @@ import RegPage from "./pages/RegPage";
 import SettingsPage from "./pages/SettingsPage";
 import { $userInfo } from "./store/userInfo";
 import { useStore } from "effector-react";
+import MainPageMob from "./mob/pages/MainPageMob";
 
 const AppRoutes = (isAuth: boolean) => {
   const userInfo = useStore($userInfo);
@@ -13,7 +14,7 @@ const AppRoutes = (isAuth: boolean) => {
   if (isAuth) {
     return (
       <Routes>
-        <Route path="/:id/:dialogId" element={<MainPage />} />
+        <Route path="/:id/:dialogId" element={window.screen.width > 700 ? <MainPage /> : <MainPageMob />} />
         <Route path="/auth/entrance" element={<LoginPage />} />
         <Route path="/auth/reg" element={<RegPage />} />
         <Route path="/settings/:id" element={<SettingsPage />} />
