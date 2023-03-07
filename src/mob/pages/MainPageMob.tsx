@@ -1,29 +1,32 @@
 import { useStore } from "effector-react";
 import React, { FC } from "react";
-import { $foundDialogs } from "../../store/foundDialogs";
-import { $searchValue } from "../../store/search";
 import { $userInfo } from "../../store/userInfo";
-import { $users } from "../../store/users";
-import Dialog from "./Dialogs/Dialog/Dialog";
-import Dialogs from "./Dialogs/Dialogs";
-import Exit from "./Exit";
-import ProfileInfo from "./ProfileInfo";
-import Search from "./Search";
-import Users from "./Users/Users";
+import Dialogs from "../components/Main/Dialogs/Dialogs";
+import Header from "../components/Main/Header/Header";
+import Menu from "../components/Main/Menu/Menu";
+import getUserData from "../../utils/getUserData";
+import { $searchValue } from "../../store/search";
+import { $foundDialogs } from "../../store/foundDialogs";
+import Dialog from "../components/Main/Dialogs/Dialog/Dialog";
+import Users from "../components/Main/Users/Users";
 
-const Sidebar: FC = () => {
+const MainPageMob: FC = () => {
+  const userInfo = useStore($userInfo);
   const searchValue = useStore($searchValue);
   const foundDialogs = useStore($foundDialogs);
-  const userInfo = useStore($userInfo);
+
+  React.useEffect(() => {
+    getUserData(userInfo.token!);
+  }, [userInfo.token]);
 
   return (
-    <div className="w-[30%] h-full border-r-[1px] border-[rgba(112, 124, 151, 0.1)] border-solid flex flex-col">
-      <ProfileInfo img={userInfo.avatar ? userInfo.avatar : "/img/avatar.png"} name={userInfo.userName} />
-      <Search />
+    <div>
+      <Header />
+
       {searchValue.length ? (
         <>
           {foundDialogs.length > 0 && (
-            <div className="pb-[10px] border-b-[1px] border-[rgba(112, 124, 151, 0.1)] border-solid">
+            <div className="pb-[10px]">
               {foundDialogs.map((dialog) => {
                 let img = "";
                 let userName = "";
@@ -55,14 +58,16 @@ const Sidebar: FC = () => {
               })}
             </div>
           )}
+          <p className="mx-2 text-sm font-light">Глобальный поиск</p>
           <Users />
         </>
       ) : (
         <Dialogs />
       )}
-      <Exit />
+
+      <Menu />
     </div>
   );
 };
 
-export default Sidebar;
+export default MainPageMob;

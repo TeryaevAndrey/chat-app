@@ -3,7 +3,7 @@ import React, { FC } from "react";
 import { useParams } from "react-router-dom";
 import socket from "../../../core/socket";
 import { $fellowData } from "../../../store/fellowData";
-import { $messages, setMessages } from "../../../store/messages";
+import { $messages, pushMessage, setMessages } from "../../../store/messages";
 import { $userInfo } from "../../../store/userInfo";
 import Message from "./Message";
 
@@ -17,7 +17,7 @@ const Field: FC = () => {
     const message = () => {
       socket.on("ROOM:NEW-MESSAGE", (message) => {
         if (dialogId === message.dialog) {
-          return setMessages([...messages, message]);
+          return pushMessage(message);
         }
       });
 
