@@ -3,7 +3,7 @@ import Dialog from './Dialog/Dialog';
 
 const Dialogs: FC = () => {
     return (
-        <div className="flex flex-col mx-2">
+        <div className="flex flex-col">
             <Dialog />
             <Dialog />
             <Dialog />

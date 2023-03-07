@@ -1,6 +1,6 @@
 import React, { FC } from "react";
 
-const Dialog: FC = () => {
+const User: FC = () => {
   return (
     <div className="flex items-center gap-4 px-2 py-3 border-b border-[#ccc] cursor-pointer">
       <div className="w-[45px] h-[45px] rounded-[50%] overflow-hidden">
@@ -8,10 +8,9 @@ const Dialog: FC = () => {
       </div>
       <div className="flex flex-col">
         <p className="text-base font-medium">Username</p>
-        <span className="text-sm font-light">Last Message</span>
       </div>
     </div>
   );
 };
 
-export default Dialog;
+export default User;
