@@ -1,18 +1,31 @@
-import React, {FC} from 'react';
-import Dialogs from '../components/Main/Dialogs/Dialogs';
-import Header from '../components/Main/Header/Header';
-import Menu from '../components/Main/Menu/Menu';
+import { useStore } from "effector-react";
+import React, { FC } from "react";
+import { $userInfo } from "../../store/userInfo";
+import Dialogs from "../components/Main/Dialogs/Dialogs";
+import Header from "../components/Main/Header/Header";
+import Menu from "../components/Main/Menu/Menu";
+import getUserData from "../../utils/getUserData";
+import { $searchValue } from "../../store/search";
 
 const MainPageMob: FC = () => {
-    return (
-        <div>
-            <Header />
+  const userInfo = useStore($userInfo);
+  const searchValue = useStore($searchValue);
 
-            <Dialogs />
+  React.useEffect(() => {
+    getUserData(userInfo.token!);
+  }, [userInfo.token]);
 
-            <Menu />
-        </div>
-    );
+  return (
+    <div>
+      <Header />
+
+      <div>
+        <Dialogs />
+      </div>
+
+      <Menu />
+    </div>
+  );
 };
 
 export default MainPageMob;

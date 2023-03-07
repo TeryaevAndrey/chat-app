@@ -1,11 +1,21 @@
+import { useStore } from "effector-react";
 import React, { FC } from "react";
+import { $searchValue, setSearchValue } from "../../../../store/search";
 
 const Header: FC = () => {
+  const searchValue = useStore($searchValue);
+
+  const changeSearchValue = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchValue(e.target.value);
+  }
+
   return (
     <div className="py-3">
       <h1 className="text-center text-base text-medium">Мои чаты</h1>
       <div className="relative mx-2 mt-2">
         <input
+          onChange={changeSearchValue}
+          value={searchValue}
           type="text"
           placeholder="Поиск..."
           className="w-full py-2 pl-11 pr-4 text-base font-normal rounded-full border border-gray-300 bg-gray-100 focus:outline-none focus:bg-white focus:border-blue-500 placeholder:text-base placeholder:font-normal"
