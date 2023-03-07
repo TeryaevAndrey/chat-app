@@ -1,13 +1,55 @@
+import axios, { AxiosResponse } from "axios";
 import { useStore } from "effector-react";
 import React, { FC } from "react";
+import { setFoundDialogs } from "../../../../store/foundDialogs";
+import { $myDialogs } from "../../../../store/myDialogs";
 import { $searchValue, setSearchValue } from "../../../../store/search";
+import { $userInfo } from "../../../../store/userInfo";
+import { setUsers } from "../../../../store/users";
 
 const Header: FC = () => {
   const searchValue = useStore($searchValue);
+  const myDialogs = useStore($myDialogs);
+  const userInfo = useStore($userInfo);
 
   const changeSearchValue = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchValue(e.target.value);
-  }
+  };
+
+  React.useEffect(() => {
+    if (searchValue.length) {
+      const filteredMyDialogs = myDialogs.filter((dialog) => {
+        if (userInfo.userId === dialog.creator) {
+          return dialog.fellowName
+            .toLowerCase()
+            .includes(searchValue.toLowerCase());
+        } else {
+          return dialog.creatorName
+            .toLowerCase()
+            .includes(searchValue.toLowerCase());
+        }
+      });
+
+      setFoundDialogs(filteredMyDialogs);
+    }
+  }, [searchValue]);
+
+  React.useEffect(() => {
+    if (searchValue.length) {
+      axios
+        .post(process.env.REACT_APP_PROXY + "/api/users/users-search", {
+          userName: searchValue,
+        })
+        .then((res: AxiosResponse) => {
+          setUsers(res.data.users);
+        })
+        .catch((err) => {
+          console.log("Нет совпадений");
+        });
+    } else {
+      setUsers([]);
+    }
+  }, [searchValue]);
 
   return (
     <div className="py-3">

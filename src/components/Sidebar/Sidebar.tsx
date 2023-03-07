@@ -12,7 +12,6 @@ import Search from "./Search";
 import Users from "./Users/Users";
 
 const Sidebar: FC = () => {
-  const users = useStore($users);
   const searchValue = useStore($searchValue);
   const foundDialogs = useStore($foundDialogs);
   const userInfo = useStore($userInfo);
