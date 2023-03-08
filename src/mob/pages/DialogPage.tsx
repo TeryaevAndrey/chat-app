@@ -8,12 +8,12 @@ import { $userInfo } from "../../store/userInfo";
 import getDialogData from "../../utils/getDialogData";
 import getFellowData from "../../utils/getFellowData";
 import getMessages from "../../utils/getMessages";
+import Footer from "../components/DIalog/Footer/Footer";
 import Header from "../components/DIalog/Header/Header";
 
 const DialogPage: FC = () => {
   const userInfo = useStore($userInfo);
   const dialogInfo = useStore($dialogInfo);
-  const fellowData = useStore($fellowData);
   const {dialogId} = useParams();
 
   React.useEffect(() => {
@@ -59,6 +59,7 @@ const DialogPage: FC = () => {
   return (
     <div>
       <Header />
+      <Footer />
     </div>
   );
 };

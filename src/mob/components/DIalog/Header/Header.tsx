@@ -1,7 +1,7 @@
 import { useStore } from "effector-react";
 import React, { FC } from "react";
 import { $dialogInfo } from "../../../../store/dialogInfo";
-import { $fellowData } from "../../../../store/fellowData";
+import { $fellowData, setFellowData } from "../../../../store/fellowData";
 import { $userInfo } from "../../../../store/userInfo";
 import getFellowData from "../../../../utils/getFellowData";
 import { IoChevronBackOutline } from "react-icons/io5";
@@ -9,28 +9,14 @@ import { useNavigate } from "react-router-dom";
 
 const Header: FC = () => {
   const fellowData = useStore($fellowData);
-  const userInfo = useStore($userInfo);
-  const dialogInfo = useStore($dialogInfo);
   const navigate = useNavigate();
-
-  React.useEffect(() => {
-    if (userInfo.userId === dialogInfo.creator) {
-      if (dialogInfo.fellow) {
-        getFellowData(dialogInfo.fellow, userInfo.token!);
-      }
-    } else {
-      if (dialogInfo.creator) {
-        getFellowData(dialogInfo.creator, userInfo.token!);
-      }
-    }
-  }, [dialogInfo, userInfo.userId]);
 
   const backHandler = () => {
     navigate("/");
   };
 
   return (
-    <div className="flex flex-col justify-between mx-2 py-3 pb-2">
+    <div className="flex flex-col justify-between mx-2 py-3 border-b border-[#ccc]">
       <div
         className="cursor-pointer flex items-center gap-1"
         onClick={backHandler}
