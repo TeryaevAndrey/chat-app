@@ -51,7 +51,6 @@ const Footer: FC = () => {
           sender: res.data.newMessage.sender,
         }]);
 
-        console.log(messages);
       })
       .catch((err) => {
         setAlertErrorInfo({
@@ -81,9 +80,9 @@ const Footer: FC = () => {
           placeholder="Написать сообщение..."
         />
       </div>
-      <div className="cursor-pointer mr-4">
+      {/* <div className="cursor-pointer mr-4">
         <BsFillEmojiSmileFill size="25" color="#0D1C2E" />
-      </div>
+      </div> */}
       <button onClick={sendMessage} className="cursor-pointer">
         <MdSend size="30" color="#60A9F6" />
       </button>

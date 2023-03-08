@@ -46,3 +46,8 @@ input {
 .settings-avatar:hover div {
   opacity: 1;
 }
+
+/*Убрать полосу прокрутки у элемента*/
+.field-mob::-webkit-scrollbar {
+  width: 0;
+}

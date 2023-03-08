@@ -21,7 +21,6 @@ const Dialogs: FC = () => {
         },
       })
       .then((res: AxiosResponse) => {
-        console.log(res);
         setMyDialogs(res.data.dialogs);
       })
       .catch((err) => {

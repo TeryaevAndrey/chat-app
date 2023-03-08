@@ -47,8 +47,6 @@ const RegForm: FC = () => {
         }, 3000);
       })
       .catch((err) => {
-        console.log(err);
-
         setAlertErrorInfo({
           isError: true,
           title: err.response.data.message,

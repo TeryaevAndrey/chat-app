@@ -1,13 +1,13 @@
 import { useStore } from "effector-react";
-import React, { FC } from "react";
+import React from "react";
 import { useParams } from "react-router-dom";
-import socket from "../../../core/socket";
-import { $fellowData } from "../../../store/fellowData";
-import { $messages, pushMessage, setMessages } from "../../../store/messages";
-import { $userInfo } from "../../../store/userInfo";
-import Message from "./Message";
+import Message from "../../../../components/Main/Field/Message";
+import socket from "../../../../core/socket";
+import { $fellowData } from "../../../../store/fellowData";
+import { $messages, pushMessage } from "../../../../store/messages";
+import { $userInfo } from "../../../../store/userInfo";
 
-const Field: FC = () => {
+const Field = () => {
   const messages = useStore($messages);
   const userInfo = useStore($userInfo);
   const fellowData = useStore($fellowData);
@@ -32,12 +32,10 @@ const Field: FC = () => {
   }, []);
 
   return (
-    <div className="field w-full h-full overflow-x-hidden overflow-y-auto flex">
+    <div className="field-mob w-full h-full overflow-x-hidden overflow-y-auto flex flex-col pt-3">
       <div className="w-full h-auto flex flex-col mx-5 my-5 mt-auto">
-        {messages.length > 0 && (
+        {messages.length > 0 &&
           messages.map((msg, index) => {
-            
-
             return (
               <Message
                 key={index}
@@ -50,8 +48,7 @@ const Field: FC = () => {
                 isMyMessage={userInfo.userId === msg.sender ? true : false}
               />
             );
-          })
-        )}
+          })}
       </div>
     </div>
   );
