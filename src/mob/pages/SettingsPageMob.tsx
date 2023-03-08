@@ -40,7 +40,10 @@ const SettingsPageMob: FC = () => {
         >
           Вернуться к моим чатам
         </div>
-        <div className="flex items-center gap-3 py-3 w-full bg-white border-b border-[#ccc] active:opacity-50 px-2" onClick={exitFromAccount}>
+        <div
+          className="flex items-center gap-3 py-3 w-full bg-white border-b border-[#ccc] active:opacity-50 px-2"
+          onClick={exitFromAccount}
+        >
           <AiOutlinePoweroff color="red" size="20" />
           <span className="inline-block text-base font-normal text-[red]">
             Выход

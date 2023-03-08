@@ -15,11 +15,15 @@ const Header: FC = () => {
 
   const menuHandler = () => {
     setIsOpenMenu(!isOpenMenu);
-  }
+  };
 
   return (
     <div className="flex justify-between items-center min-h-[70px] px-5 py-3 border-b-[1px] border-[rgba(112, 124, 151, 0.1)] border-solid relative">
-      <User src={fellowData.avatar || "/img/avatar.png"} name={fellowData.userName || ""} isOnline={fellowData.isOnline!} />
+      <User
+        src={fellowData.avatar || "/img/avatar.png"}
+        name={fellowData.userName || ""}
+        isOnline={fellowData.isOnline!}
+      />
       <div className="cursor-pointer" onClick={menuHandler}>
         <FiMoreHorizontal size="30" color="rgb(96,169,246)" />
       </div>

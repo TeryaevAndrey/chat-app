@@ -9,7 +9,7 @@ export const setAlertSuccessInfo = createEvent<IAlertSuccessInfo>();
 
 export const $alertSuccessInfo = createStore<IAlertSuccessInfo>({
   isSuccess: false,
-  title: undefined
+  title: undefined,
 });
 
-$alertSuccessInfo.on(setAlertSuccessInfo, (state, data) => state = data);
+$alertSuccessInfo.on(setAlertSuccessInfo, (state, data) => (state = data));

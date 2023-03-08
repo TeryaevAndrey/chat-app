@@ -9,7 +9,7 @@ export const setAlertErrorInfo = createEvent<IAlertErrorInfo>();
 
 export const $alertErrorInfo = createStore<IAlertErrorInfo>({
   isError: false,
-  title: undefined
+  title: undefined,
 });
 
-$alertErrorInfo.on(setAlertErrorInfo, (state, data) => state = data);
+$alertErrorInfo.on(setAlertErrorInfo, (state, data) => (state = data));

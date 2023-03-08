@@ -5,4 +5,4 @@ export const setFoundDialogs = createEvent<IDialog[] | []>();
 
 export const $foundDialogs = createStore<IDialog[] | []>([]);
 
-$foundDialogs.on(setFoundDialogs, (state, data) => state = data);
+$foundDialogs.on(setFoundDialogs, (state, data) => (state = data));

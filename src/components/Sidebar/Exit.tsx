@@ -10,12 +10,11 @@ const Exit = () => {
   const userInfo = useStore($userInfo);
 
   const exitFromAccount = async (e: React.MouseEvent<HTMLElement>) => {
-    
     await axios.get(process.env.REACT_APP_PROXY + "/api/auth/exit", {
       headers: {
-        Authorization: `Bearer ${userInfo.token}`
-      }
-    })
+        Authorization: `Bearer ${userInfo.token}`,
+      },
+    });
 
     setUserInfo({
       token: undefined,

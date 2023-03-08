@@ -52,7 +52,7 @@ const DialogPage: FC = () => {
   }, [dialogInfo, userInfo.userId]);
 
   return (
-    <div className="h-screen flex flex-col justify-between">
+    <div className="h-screen flex flex-col justify-between overflow-hidden">
       <Header />
       <Field />
       <Footer />

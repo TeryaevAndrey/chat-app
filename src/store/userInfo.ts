@@ -1,4 +1,4 @@
-import {createEvent, createStore} from "effector";
+import { createEvent, createStore } from "effector";
 
 interface IUserInfo {
   token?: string | undefined;
@@ -16,8 +16,8 @@ export const $userInfo = createStore<IUserInfo>({
   avatar: undefined,
   userId: undefined,
   userName: undefined,
-  isOnline: false, 
-  wasOnline: undefined
+  isOnline: false,
+  wasOnline: undefined,
 });
 
-$userInfo.on(setUserInfo, (state, data) => state = data);
+$userInfo.on(setUserInfo, (state, data) => (state = data));

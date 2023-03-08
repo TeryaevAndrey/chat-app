@@ -12,8 +12,8 @@
 }
 
 body {
-  background-color: #F3F3FB;
-  color: #0D1C2E;
+  background-color: #f3f3fb;
+  color: #0d1c2e;
   font-size: 16px;
   font-weight: 500;
 }
@@ -24,7 +24,7 @@ input {
 
 .dialogs,
 .field {
-  scrollbar-color: #0D1C2E #fff;
+  scrollbar-color: #0d1c2e #fff;
 }
 
 .dialogs::-webkit-scrollbar,
@@ -39,7 +39,7 @@ input {
 
 .dialogs::-webkit-scrollbar-thumb,
 .field::-webkit-scroll-bar-thumb {
-  background-color: #0D1C2E;
+  background-color: #0d1c2e;
   border-radius: 20px;
 }
 

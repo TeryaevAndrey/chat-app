@@ -18,7 +18,10 @@ const Sidebar: FC = () => {
 
   return (
     <div className="w-[30%] h-full border-r-[1px] border-[rgba(112, 124, 151, 0.1)] border-solid flex flex-col">
-      <ProfileInfo img={userInfo.avatar ? userInfo.avatar : "/img/avatar.png"} name={userInfo.userName} />
+      <ProfileInfo
+        img={userInfo.avatar ? userInfo.avatar : "/img/avatar.png"}
+        name={userInfo.userName}
+      />
       <Search />
       {searchValue.length ? (
         <>

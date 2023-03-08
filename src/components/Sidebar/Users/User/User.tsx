@@ -3,7 +3,7 @@ import React, { FC } from "react";
 interface IUser {
   img: string;
   userName: string;
-  onClick: React.MouseEventHandler
+  onClick: React.MouseEventHandler;
 }
 
 const User: FC<IUser> = ({ img, userName, onClick }) => {

@@ -34,10 +34,8 @@ const Field: FC = () => {
   return (
     <div className="field w-full h-full overflow-x-hidden overflow-y-auto flex">
       <div className="w-full h-auto flex flex-col mx-5 my-5 mt-auto">
-        {messages.length > 0 && (
+        {messages.length > 0 &&
           messages.map((msg, index) => {
-            
-
             return (
               <Message
                 key={index}
@@ -50,8 +48,7 @@ const Field: FC = () => {
                 isMyMessage={userInfo.userId === msg.sender ? true : false}
               />
             );
-          })
-        )}
+          })}
       </div>
     </div>
   );
