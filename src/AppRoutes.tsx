@@ -23,13 +23,20 @@ const AppRoutes = (isAuth: boolean) => {
         <Route path="/auth/reg" element={<RegPage />} />
         <Route path="/settings/:id" element={<SettingsPage />} />
         {window.screen.width <= 700 && (
-          <Route path="/" element={<MainPageMob />} />
+          <Route path="/:id" element={<MainPageMob />} />
         )}
 
-        <Route
-          path="*"
-          element={<Navigate to={`/${userInfo.userId}/empty`} replace />}
-        />
+        {window.screen.width <= 700 ? (
+          <Route
+            path="*"
+            element={<Navigate to={`/${userInfo.userId}`} replace />}
+          />
+        ) : (
+          <Route
+            path="*"
+            element={<Navigate to={`/${userInfo.userId}/empty`} replace />}
+          />
+        )}
       </Routes>
     );
   }
