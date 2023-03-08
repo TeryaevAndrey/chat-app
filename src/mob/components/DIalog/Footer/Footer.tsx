@@ -70,7 +70,7 @@ const Footer: FC = () => {
   };
 
   return (
-    <form className="bg-white rounded-t-[30px] w-full">
+    <form className="bg-white rounded-t-[30px] w-full fixed bottom-0">
       <div className="px-2 py-3 w-full flex items-center justify-between">
         <input
           onChange={onChangeMessageValue}
