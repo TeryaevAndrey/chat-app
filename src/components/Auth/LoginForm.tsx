@@ -38,7 +38,11 @@ const LoginForm: FC = () => {
 
         setUserInfo(res.data.userInfo);
 
-        navigate(`/${res.data.userInfo.userId}/empty`)
+        if(window.screen.width > 700) {
+          navigate(`/${res.data.userInfo.userId}/empty`)
+        } else {
+          navigate(`/${res.data.userInfo.userId}`);
+        }
 
         setTimeout(() => {
           setAlertSuccessInfo({

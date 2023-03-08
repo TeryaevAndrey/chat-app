@@ -91,10 +91,10 @@ const SettingsPage: FC = () => {
 
   return (
     <div className="flex justify-center items-center h-screen">
-      <div className="w-[400px] h-[80%] bg-white rounded-[7px] py-[40px] px-[20px]">
+      <div className="w-full h-full md:w-[400px] md:h-[80%] bg-white rounded-[7px] py-[40px] px-[20px]">
         <Link
           className="flex items-center opacity-[0.5] hover:opacity-[1] ease-linear duration-200"
-          to={`/${userInfo.userId}/empty`}
+          to={window.screen.width > 700 ? `/${userInfo.userId}/empty` : "/"}
         >
           <img
             className="w-[30px] h-[30px]"

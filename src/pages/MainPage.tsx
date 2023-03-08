@@ -12,13 +12,9 @@ const MainPage: FC = () => {
     getUserData(userInfo.token!);
   }, [userInfo.token]);
 
-
-
-  console.log(userInfo);
-
   return (
     <div className="flex justify-center items-center h-screen">
-      <div className="w-full h-full lg:w-[60%] lg:h-[80%] bg-white rounded-[7px]">
+      <div className="w-full h-full bg-white rounded-[7px]">
         <div className="flex items-start w-full h-full">
           <Sidebar />
           <Main />

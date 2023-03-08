@@ -7,6 +7,8 @@ import SettingsPage from "./pages/SettingsPage";
 import { $userInfo } from "./store/userInfo";
 import { useStore } from "effector-react";
 import MainPageMob from "./mob/pages/MainPageMob";
+import DialogPage from "./mob/pages/DialogPageMob";
+import SettingsPageMob from "./mob/pages/SettingsPageMob";
 
 const AppRoutes = (isAuth: boolean) => {
   const userInfo = useStore($userInfo);
@@ -14,15 +16,32 @@ const AppRoutes = (isAuth: boolean) => {
   if (isAuth) {
     return (
       <Routes>
-        <Route path="/:id/:dialogId" element={window.screen.width > 700 ? <MainPage /> : <MainPageMob />} />
+        <Route
+          path="/:id/:dialogId"
+          element={window.screen.width > 700 ? <MainPage /> : <DialogPage />}
+        />
         <Route path="/auth/entrance" element={<LoginPage />} />
         <Route path="/auth/reg" element={<RegPage />} />
         <Route path="/settings/:id" element={<SettingsPage />} />
+        {window.screen.width <= 700 && (
+          <Route path="/:id" element={<MainPageMob />} />
+        )}
 
-        <Route
-          path="*"
-          element={<Navigate to={`/${userInfo.userId}/empty`} replace />}
-        />
+        {window.screen.width <= 700 ? (
+          <Route
+            path="*"
+            element={<Navigate to={`/${userInfo.userId}`} replace />}
+          />
+        ) : (
+          <Route
+            path="*"
+            element={<Navigate to={`/${userInfo.userId}/empty`} replace />}
+          />
+        )}
+
+        {window.screen.width <= 700 && (
+          <Route path="/parameters" element={<SettingsPageMob />} />
+        )}
       </Routes>
     );
   }

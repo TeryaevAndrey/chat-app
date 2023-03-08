@@ -4,10 +4,10 @@ import React, { FC } from "react";
 import { BsFillEmojiSmileFill } from "react-icons/bs";
 import { MdSend } from "react-icons/md";
 import { useParams } from "react-router-dom";
-import socket from "../../../core/socket";
-import { setAlertErrorInfo } from "../../../store/alerts/alertError";
-import { $messages, setMessages } from "../../../store/messages";
-import { $userInfo } from "../../../store/userInfo";
+import socket from "../../../../core/socket";
+import { setAlertErrorInfo } from "../../../../store/alerts/alertError";
+import { $messages, setMessages } from "../../../../store/messages";
+import { $userInfo } from "../../../../store/userInfo";
 
 const Footer: FC = () => {
   const [messageValue, setMessageValue] = React.useState<string>("");
@@ -43,14 +43,16 @@ const Footer: FC = () => {
         }
       )
       .then((res: AxiosResponse) => {
-        setMessages([...messages, {
-          _id: res.data.newMessage._id,
-          message: res.data.newMessage.message,
-          dialog: res.data.newMessage.dialog,
-          files: res.data.newMessage.files,
-          sender: res.data.newMessage.sender,
-        }]);
-
+        setMessages([
+          ...messages,
+          {
+            _id: res.data.newMessage._id,
+            message: res.data.newMessage.message,
+            dialog: res.data.newMessage.dialog,
+            files: res.data.newMessage.files,
+            sender: res.data.newMessage.sender,
+          },
+        ]);
       })
       .catch((err) => {
         setAlertErrorInfo({
@@ -68,24 +70,21 @@ const Footer: FC = () => {
   };
 
   return (
-    <form className="flex items-center min-h-[70px] max-h-[150px] pl-5 pr-4 py-3">
-      {/* <div className="cursor-pointer mr-3">
-        <AiOutlinePaperClip size="30" color="#0D1C2E" />
-      </div> */}
-      <div className="w-full h-full flex items-center">
+    <form className="bg-white rounded-t-[30px] w-full">
+      <div className="px-2 py-3 w-full flex items-center justify-between">
         <input
           onChange={onChangeMessageValue}
-          value={messageValue}
-          className="w-full"
-          placeholder="Написать сообщение..."
+          className="w-full px-2"
+          type="text"
+          placeholder="Введите сообщение..."
         />
+        {/* <div className="cursor-pointer mr-4">
+          <BsFillEmojiSmileFill size="25" color="#0D1C2E" />
+        </div> */}
+        <button className="cursor-pointer" onClick={sendMessage}>
+          <MdSend size="30" color="#60A9F6" />
+        </button>
       </div>
-      {/* <div className="cursor-pointer mr-4">
-        <BsFillEmojiSmileFill size="25" color="#0D1C2E" />
-      </div> */}
-      <button onClick={sendMessage} className="cursor-pointer">
-        <MdSend size="30" color="#60A9F6" />
-      </button>
     </form>
   );
 };

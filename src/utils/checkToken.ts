@@ -1,24 +1,21 @@
-import axios from "axios";
-import { setUserInfo } from "../store/userInfo";
+import jwtDecode from "jwt-decode";
 
-const checkToken = async (token: string) => {
-  await axios
-    .post(process.env.REACT_APP_PROXY + "/api/auth/check-token", {
-      token: token,
-    })
-    .catch((err) => {
-      if(err) {
-        setUserInfo({
-            token: undefined,
-            avatar: undefined,
-            userId: undefined,
-            userName: undefined,
-            isOnline: false,
-            wasOnline: undefined,
-          });
-          localStorage.removeItem("userInfo");
-      }
-    });
+const checkToken = (): boolean => {
+  const token = JSON.parse(localStorage.getItem("userInfo") || "{}").token;
+
+  if (token) {
+    const decodedToken: { [key: string]: any } = jwtDecode(token);
+
+    const currentTime: number = Date.now() / 1000;
+
+    if (decodedToken.exp < currentTime) {
+      return true;
+    }
+  } else {
+    return false;
+  }
+
+  return false;
 };
 
 export default checkToken;
