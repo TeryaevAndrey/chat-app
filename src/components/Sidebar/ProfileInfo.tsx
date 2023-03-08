@@ -44,7 +44,8 @@ const ProfileInfo: FC<IProfileInfo> = ({ img, name }) => {
           } overflow-hidden ease-linear duration-200`}
         >
           <div className="flex flex-col h-[102%] min-h-[50px]">
-            <Link to={`/settings/${userInfo.userId}`}
+            <Link
+              to={`/settings/${userInfo.userId}`}
               className={`border-b-[1px] border-solid border-[rgba(112, 124, 151, 0.1)] px-3 py-2 ease-linear duration-200 opacity-[${
                 isOpenMenu ? "1" : "0"
               }] hover:border-[#0D1C2E] cursor-pointer`}

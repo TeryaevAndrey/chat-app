@@ -3,11 +3,14 @@ import { removeMessages, setMessages } from "../store/messages";
 
 const getMessages = async (dialogId: string, token: string) => {
   await axios
-    .get(process.env.REACT_APP_PROXY + `/api/messages/get-messages/${dialogId}`, {
-      headers: {
-        Authorization: `Bearer ${token}`
+    .get(
+      process.env.REACT_APP_PROXY + `/api/messages/get-messages/${dialogId}`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
       }
-    })
+    )
     .then((res: AxiosResponse) => {
       setMessages(res.data.messages);
     });

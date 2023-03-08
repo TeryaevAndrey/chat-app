@@ -15,9 +15,7 @@ const User: FC<IUser> = ({ src, name, isOnline }) => {
       <div className="flex flex-col">
         <span className="inline-block text-[16px] font-bold">{name}</span>
         <span className="inline-block text-[14px] font-medium text-[#707C97]">
-          {
-            isOnline ? "Online" : "Offline"
-          }
+          {isOnline ? "Online" : "Offline"}
         </span>
       </div>
     </div>

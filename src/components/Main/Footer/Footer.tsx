@@ -43,14 +43,16 @@ const Footer: FC = () => {
         }
       )
       .then((res: AxiosResponse) => {
-        setMessages([...messages, {
-          _id: res.data.newMessage._id,
-          message: res.data.newMessage.message,
-          dialog: res.data.newMessage.dialog,
-          files: res.data.newMessage.files,
-          sender: res.data.newMessage.sender,
-        }]);
-
+        setMessages([
+          ...messages,
+          {
+            _id: res.data.newMessage._id,
+            message: res.data.newMessage.message,
+            dialog: res.data.newMessage.dialog,
+            files: res.data.newMessage.files,
+            sender: res.data.newMessage.sender,
+          },
+        ]);
       })
       .catch((err) => {
         setAlertErrorInfo({

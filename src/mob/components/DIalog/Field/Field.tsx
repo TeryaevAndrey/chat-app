@@ -32,7 +32,7 @@ const Field = () => {
   }, []);
 
   return (
-    <div className="scrollbar-none w-full h-full overflow-x-hidden overflow-y-auto flex flex-col pt-3">
+    <div className="scrollbar-none w-full h-full overflow-x-hidden overflow-y-auto flex flex-col mt-3.5 mb-[60px]">
       <div className="w-full h-auto flex flex-col mx-5 my-5 mt-auto">
         {messages.length > 0 &&
           messages.map((msg, index) => {

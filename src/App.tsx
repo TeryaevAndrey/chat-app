@@ -30,7 +30,7 @@ const App: FC = () => {
   React.useEffect(() => {
     const isToken = checkToken();
 
-    if(isToken) {
+    if (isToken) {
       navigate("/auth/entrance");
       localStorage.removeItem("userInfo");
     }
