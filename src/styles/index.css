@@ -48,6 +48,6 @@ input {
 }
 
 /*Убрать полосу прокрутки у элемента*/
-.field-mob::-webkit-scrollbar {
+.scrollbar-none::-webkit-scrollbar {
   width: 0;
 }
