@@ -14,6 +14,7 @@ const Footer: FC = () => {
   const { dialogId } = useParams();
   const userInfo = useStore($userInfo);
   const messages = useStore($messages);
+  const messageValueRef = React.useRef<HTMLInputElement>(null);
 
   const onChangeMessageValue = (e: React.ChangeEvent<HTMLInputElement>) => {
     setMessageValue(e.target.value);
@@ -53,6 +54,10 @@ const Footer: FC = () => {
             sender: res.data.newMessage.sender,
           },
         ]);
+
+        setMessageValue("");
+
+        messageValueRef.current?.focus();
       })
       .catch((err) => {
         setAlertErrorInfo({
@@ -74,9 +79,11 @@ const Footer: FC = () => {
       <div className="px-2 py-3 w-full flex items-center justify-between">
         <input
           onChange={onChangeMessageValue}
+          value={messageValue}
           className="w-full px-2"
           type="text"
           placeholder="Введите сообщение..."
+          ref={messageValueRef}
         />
         {/* <div className="cursor-pointer mr-4">
           <BsFillEmojiSmileFill size="25" color="#0D1C2E" />

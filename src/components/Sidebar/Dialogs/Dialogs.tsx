@@ -13,6 +13,7 @@ const Dialogs: FC = () => {
   const userInfo = useStore($userInfo);
   const navigate = useNavigate();
 
+
   React.useEffect(() => {
     axios
       .get(process.env.REACT_APP_PROXY + "/api/dialogs/get-my-dialogs", {

@@ -14,6 +14,7 @@ const Footer: FC = () => {
   const { dialogId } = useParams();
   const userInfo = useStore($userInfo);
   const messages = useStore($messages);
+  const messageValueRef = React.useRef<HTMLInputElement>(null);
 
   const onChangeMessageValue = (e: React.ChangeEvent<HTMLInputElement>) => {
     setMessageValue(e.target.value);
@@ -53,6 +54,10 @@ const Footer: FC = () => {
             sender: res.data.newMessage.sender,
           },
         ]);
+
+        setMessageValue("");
+
+        messageValueRef.current?.focus();
       })
       .catch((err) => {
         setAlertErrorInfo({
@@ -80,6 +85,7 @@ const Footer: FC = () => {
           value={messageValue}
           className="w-full"
           placeholder="Написать сообщение..."
+          ref={messageValueRef}
         />
       </div>
       {/* <div className="cursor-pointer mr-4">
