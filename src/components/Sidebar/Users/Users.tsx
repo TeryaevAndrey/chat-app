@@ -54,6 +54,8 @@ const Users: FC = () => {
           });
         }, 3000);
       });
+
+      console.log(fellowName);
   };
 
   return (
