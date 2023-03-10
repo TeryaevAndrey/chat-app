@@ -19,8 +19,13 @@ const ProfileInfo: FC<IProfileInfo> = ({ img, name }) => {
 
   return (
     <div className="flex flex-col items-center pt-[40px] px-[45px] relative">
-      <div className="w-[80px] h-[80px] overflow-hidden rounded-[50%]">
-        <img className="w-full h-full" src={img} alt={name} />
+      <div className="relative">
+        <div className="w-[80px] h-[80px] overflow-hidden rounded-[50%] relative">
+          <img className="w-full h-full" src={img} alt={name} />
+        </div>
+        {userInfo.isOnline && (
+          <div className="w-4 h-4 rounded-full absolute top-[6px] right-0 bg-green-500"></div>
+        )}
       </div>
       <span
         className="flex items-center gap-1 text-center mt-[15px] cursor-pointer"

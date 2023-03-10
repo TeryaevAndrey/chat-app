@@ -1,5 +1,5 @@
 import { io } from "socket.io-client";
 
-const socket = io("wss://chat-backend-m4xi.onrender.com");
+const socket = io("ws://localhost:5000");
 
 export default socket;

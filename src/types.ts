@@ -10,12 +10,8 @@ export interface IUser {
 
 export interface IDialog {
   _id: string;
-  creator: string;
-  fellow: string;
-  creatorAvatar: string;
-  fellowAvatar: string;
-  creatorName: string;
-  fellowName: string;
+  creator: IUser;
+  fellow: IUser;
   lastMessage: string;
 }
 
