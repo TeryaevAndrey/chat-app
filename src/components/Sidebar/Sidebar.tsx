@@ -28,28 +28,19 @@ const Sidebar: FC = () => {
           {foundDialogs.length > 0 && (
             <div className="pb-[10px] border-b-[1px] border-[rgba(112, 124, 151, 0.1)] border-solid">
               {foundDialogs.map((dialog) => {
-                let img = "";
-                let userName = "";
-
-                if (userInfo.userId === dialog.creator) {
-                  if (dialog.fellowAvatar.length === 0) {
-                    img = "/img/avatar.png";
-                  }
-                  img = dialog.fellowAvatar;
-                  userName = dialog.fellowName;
-                } else {
-                  if (dialog.creatorAvatar.length === 0) {
-                    img = "/img/avatar.png";
-                  }
-                  img = dialog.creatorAvatar;
-                  userName = dialog.creatorName;
-                }
-
                 return (
                   <Dialog
                     key={dialog._id}
-                    img={img}
-                    userName={userName}
+                    img={
+                      userInfo.userId === dialog.creator._id
+                        ? dialog.fellow.avatar
+                        : dialog.creator.avatar
+                    }
+                    userName={
+                      userInfo.userId === dialog.creator._id
+                        ? dialog.fellow.userName
+                        : dialog.fellow.userName
+                    }
                     lastMessage={
                       dialog.lastMessage ? dialog.lastMessage : undefined
                     }

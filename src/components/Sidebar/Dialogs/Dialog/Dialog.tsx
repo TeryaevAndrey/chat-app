@@ -6,6 +6,7 @@ interface IDialog {
   lastMessage?: string | undefined;
   isNewMessage?: boolean | undefined;
   isActive?: boolean;
+  isOnline?: boolean;
 
   onClick?: React.MouseEventHandler;
 }
@@ -16,6 +17,7 @@ const Dialog: FC<IDialog> = ({
   lastMessage,
   isNewMessage,
   isActive,
+  isOnline,
   onClick,
 }) => {
   return (
@@ -28,8 +30,13 @@ const Dialog: FC<IDialog> = ({
       {isActive && (
         <div className="block absolute left-0 w-[3px] h-full bg-[#60A9F6]"></div>
       )}
-      <div className="w-[45px] h-[45px] rounded-[50%] overflow-hidden">
-        <img className="w-full h-full" src={img} alt={userName} />
+      <div className="relative">
+        <div className="w-[45px] h-[45px] rounded-[50%] overflow-hidden">
+          <img className="w-full h-full" src={img} alt={userName} />
+        </div>
+        {isOnline && (
+          <div className="w-4 h-4 rounded-full absolute top-[6px] right-0 bg-green-500"></div>
+        )}
       </div>
       <div className="mr-auto ml-2 flex flex-col">
         <p className="text-[16px] font-bold text-[#0D1C2E]">{userName}</p>

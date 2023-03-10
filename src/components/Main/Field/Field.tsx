@@ -12,6 +12,7 @@ const Field: FC = () => {
   const userInfo = useStore($userInfo);
   const fellowData = useStore($fellowData);
   const { dialogId } = useParams();
+  const containerRef = React.useRef<any>(null);
 
   React.useEffect(() => {
     const message = () => {
@@ -31,8 +32,20 @@ const Field: FC = () => {
     message();
   }, []);
 
+  React.useEffect(() => {
+    const container = containerRef.current;
+    const lastMsg = container?.lastChild;
+
+    if (container) {
+      container.scrollTop = lastMsg?.offsetTop - container.offsetTop;
+    }
+  }, [messages]);
+
   return (
-    <div className="field w-full h-full overflow-x-hidden overflow-y-auto flex">
+    <div
+      className="field w-full h-full overflow-x-hidden overflow-y-auto flex"
+      ref={containerRef}
+    >
       <div className="w-full h-auto flex flex-col mx-5 my-5 mt-auto">
         {messages.length > 0 &&
           messages.map((msg, index) => {

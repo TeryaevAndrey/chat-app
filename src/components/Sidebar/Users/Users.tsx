@@ -25,10 +25,6 @@ const Users: FC = () => {
         {
           creator: userInfo.userId,
           fellow,
-          creatorAvatar: userInfo.avatar,
-          fellowAvatar,
-          creatorName: userInfo.userName,
-          fellowName,
         },
         {
           headers: {
@@ -55,7 +51,7 @@ const Users: FC = () => {
         }, 3000);
       });
 
-      console.log(fellowName);
+    console.log(fellowName);
   };
 
   return (

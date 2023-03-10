@@ -19,12 +19,12 @@ const Search: FC = () => {
   React.useEffect(() => {
     if (searchValue.length) {
       const filteredMyDialogs = myDialogs.filter((dialog) => {
-        if (userInfo.userId === dialog.creator) {
-          return dialog.fellowName
+        if (userInfo.userId === dialog.creator._id) {
+          return dialog.fellow.userName
             .toLowerCase()
             .includes(searchValue.toLowerCase());
         } else {
-          return dialog.creatorName
+          return dialog.creator.userName
             .toLowerCase()
             .includes(searchValue.toLowerCase());
         }

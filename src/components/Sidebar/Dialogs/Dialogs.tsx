@@ -13,7 +13,6 @@ const Dialogs: FC = () => {
   const userInfo = useStore($userInfo);
   const navigate = useNavigate();
 
-
   React.useEffect(() => {
     axios
       .get(process.env.REACT_APP_PROXY + "/api/dialogs/get-my-dialogs", {
@@ -37,30 +36,21 @@ const Dialogs: FC = () => {
   return (
     <div className="dialogs flex flex-col gap-3 mt-5 h-[45%] overflow-auto">
       {myDialogs &&
-        myDialogs.map((dialog: IDialog) => {
-          let img = "";
-          let userName = "";
-
-          if (userInfo.userId === dialog.creator) {
-            if (dialog.fellowAvatar.length === 0) {
-              img = "/img/avatar.png";
-            }
-            img = dialog.fellowAvatar;
-            userName = dialog.fellowName;
-          } else {
-            if (dialog.creatorAvatar.length === 0) {
-              img = "/img/avatar.png";
-            }
-            img = dialog.creatorAvatar;
-            userName = dialog.creatorName;
-          }
-
+        myDialogs.map((dialog: any) => {
           return (
             <Dialog
               onClick={() => navigateToDialog(dialog._id)}
               key={dialog._id}
-              img={img}
-              userName={userName}
+              img={
+                userInfo.userId === dialog.creator._id
+                  ? dialog.fellow.avatar
+                  : dialog.creator.avatar
+              }
+              userName={
+                userInfo.userId === dialog.creator._id
+                  ? dialog.fellow.userName
+                  : dialog.fellow.userName
+              }
               lastMessage={dialog.lastMessage ? dialog.lastMessage : undefined}
             />
           );
