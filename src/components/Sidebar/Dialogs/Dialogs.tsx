@@ -49,7 +49,7 @@ const Dialogs: FC = () => {
               userName={
                 userInfo.userId === dialog.creator._id
                   ? dialog.fellow.userName
-                  : dialog.fellow.userName
+                  : dialog.creator.userName
               }
               lastMessage={dialog.lastMessage ? dialog.lastMessage : undefined}
             />
