@@ -3,6 +3,8 @@ import React, { FC } from "react";
 import { useParams } from "react-router-dom";
 import socket from "../../core/socket";
 import { $dialogInfo } from "../../store/dialogInfo";
+import { $foundDialogs } from "../../store/foundDialogs";
+import { $myDialogs } from "../../store/myDialogs";
 import { $userInfo } from "../../store/userInfo";
 import getDialogData from "../../utils/getDialogData";
 import getFellowData from "../../utils/getFellowData";
@@ -15,6 +17,7 @@ const Main: FC = () => {
   const { dialogId } = useParams();
   const userInfo = useStore($userInfo);
   const dialogInfo = useStore($dialogInfo);
+  const myDialogs = useStore($myDialogs);
 
   React.useEffect(() => {
     if (dialogId !== "empty") {
@@ -35,8 +38,10 @@ const Main: FC = () => {
   }, [dialogInfo, userInfo.userId]);
 
   React.useEffect(() => {
-    socket.emit("ROOM:JOIN", dialogId);
-  }, [dialogId]);
+    myDialogs.forEach((dialog) => {
+      socket.emit("ROOM:JOIN", dialog._id);
+    });
+  }, [myDialogs]);
 
   React.useEffect(() => {
     if (dialogId && userInfo.token) {
