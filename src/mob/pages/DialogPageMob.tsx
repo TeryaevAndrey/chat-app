@@ -30,10 +30,6 @@ const DialogPage: FC = () => {
   }, [dialogId]);
 
   React.useEffect(() => {
-    socket.emit("ROOM:JOIN", dialogId);
-  }, [dialogId]);
-
-  React.useEffect(() => {
     if (dialogId && userInfo.token) {
       getMessages(dialogId, userInfo.token);
     }

@@ -6,6 +6,7 @@ import { $dialogInfo } from "../../store/dialogInfo";
 import { $foundDialogs } from "../../store/foundDialogs";
 import { $myDialogs } from "../../store/myDialogs";
 import { $userInfo } from "../../store/userInfo";
+import checkToken from "../../utils/checkToken";
 import getDialogData from "../../utils/getDialogData";
 import getFellowData from "../../utils/getFellowData";
 import getMessages from "../../utils/getMessages";
@@ -37,17 +38,24 @@ const Main: FC = () => {
     }
   }, [dialogInfo, userInfo.userId]);
 
-  React.useEffect(() => {
-    myDialogs.forEach((dialog) => {
-      socket.emit("ROOM:JOIN", dialog._id);
-    });
-  }, [myDialogs]);
 
   React.useEffect(() => {
     if (dialogId && userInfo.token) {
       getMessages(dialogId, userInfo.token);
     }
   }, [dialogId]);
+
+  React.useEffect(() => {
+    const token = JSON.parse(localStorage.getItem("userInfo") || "{}").token;
+
+
+      socket.io.opts.query = {
+        token: token ? token : undefined,
+      };
+
+      socket.connect();
+    
+  }, []);
 
   return (
     <div className="w-[70%] h-full flex flex-col justify-between">
