@@ -1,7 +1,7 @@
 import axios, { AxiosResponse } from "axios";
 import { useStore } from "effector-react";
 import React, { FC } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import socket from "../../../../core/socket";
 import { removeMessages } from "../../../../store/messages";
 import { $myDialogs, setMyDialogs } from "../../../../store/myDialogs";
@@ -24,7 +24,7 @@ const Dialogs: FC = () => {
       .then((res: AxiosResponse) => {
         myDialogs.forEach((dialog) => {
           socket.emit("ROOM:LEAVE", dialog._id);
-        })
+        });
 
         setMyDialogs(res.data.dialogs);
       })

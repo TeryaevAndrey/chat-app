@@ -12,11 +12,13 @@ import Footer from "../components/DIalog/Footer/Footer";
 import Header from "../components/DIalog/Header/Header";
 import { $fellowData } from "../../store/fellowData";
 import getUserData from "../../utils/getUserData";
+import { $myDialogs } from "../../store/myDialogs";
 
 const DialogPage: FC = () => {
   const userInfo = useStore($userInfo);
   const dialogInfo = useStore($dialogInfo);
   const { dialogId } = useParams();
+  const myDialogs = useStore($myDialogs);
 
   React.useEffect(() => {
     getUserData(userInfo.token!);
@@ -45,6 +47,16 @@ const DialogPage: FC = () => {
       }
     }
   }, [dialogInfo, userInfo.userId]);
+
+  React.useEffect(() => {
+    const token = JSON.parse(localStorage.getItem("userInfo") || "{}").token;
+
+    socket.io.opts.query = {
+      token: token ? token : undefined,
+    };
+
+    socket.connect();
+  }, [userInfo]);
 
   return (
     <div className="h-screen flex flex-col justify-between overflow-hidden">
