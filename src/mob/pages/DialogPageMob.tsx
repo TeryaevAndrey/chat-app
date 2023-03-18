@@ -17,7 +17,6 @@ const DialogPage: FC = () => {
   const userInfo = useStore($userInfo);
   const dialogInfo = useStore($dialogInfo);
   const { dialogId } = useParams();
-  const fellowData = useStore($fellowData);
 
   React.useEffect(() => {
     getUserData(userInfo.token!);
@@ -27,13 +26,13 @@ const DialogPage: FC = () => {
     if (dialogId !== "empty") {
       getDialogData(dialogId!, userInfo.token!);
     }
-  }, [dialogId]);
+  }, []);
 
   React.useEffect(() => {
     if (dialogId && userInfo.token) {
       getMessages(dialogId, userInfo.token);
     }
-  }, [dialogId]);
+  }, [dialogId, userInfo.token]);
 
   React.useEffect(() => {
     if (userInfo.userId === dialogInfo.creator) {

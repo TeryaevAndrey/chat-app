@@ -30,7 +30,7 @@ const MainPageMob: FC = () => {
     };
 
     socket.connect();
-  }, []);
+  }, [userInfo]);
 
   return (
     <div>

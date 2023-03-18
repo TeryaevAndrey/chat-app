@@ -38,7 +38,6 @@ const Main: FC = () => {
     }
   }, [dialogInfo, userInfo.userId]);
 
-
   React.useEffect(() => {
     if (dialogId && userInfo.token) {
       getMessages(dialogId, userInfo.token);
@@ -48,14 +47,12 @@ const Main: FC = () => {
   React.useEffect(() => {
     const token = JSON.parse(localStorage.getItem("userInfo") || "{}").token;
 
+    socket.io.opts.query = {
+      token: token ? token : undefined,
+    };
 
-      socket.io.opts.query = {
-        token: token ? token : undefined,
-      };
-
-      socket.connect();
-    
-  }, []);
+    socket.connect();
+  }, [userInfo]);
 
   return (
     <div className="w-[70%] h-full flex flex-col justify-between">
