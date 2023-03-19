@@ -42,7 +42,6 @@ const App: FC = () => {
     }
   }, [userInfo.token]);
 
-
   React.useEffect(() => {
     const isDeadToken = checkToken();
 

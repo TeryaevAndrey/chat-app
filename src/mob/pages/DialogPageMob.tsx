@@ -12,13 +12,33 @@ import Footer from "../components/DIalog/Footer/Footer";
 import Header from "../components/DIalog/Header/Header";
 import { $fellowData } from "../../store/fellowData";
 import getUserData from "../../utils/getUserData";
-import { $myDialogs } from "../../store/myDialogs";
+import { $myDialogs, setMyDialogs } from "../../store/myDialogs";
+import axios, { AxiosResponse } from "axios";
 
 const DialogPage: FC = () => {
   const userInfo = useStore($userInfo);
   const dialogInfo = useStore($dialogInfo);
   const { dialogId } = useParams();
   const myDialogs = useStore($myDialogs);
+
+  React.useEffect(() => {
+    axios
+      .get(process.env.REACT_APP_PROXY + "/api/dialogs/get-my-dialogs", {
+        headers: {
+          Authorization: `Bearer ${userInfo.token}`,
+        },
+      })
+      .then((res: AxiosResponse) => {
+        myDialogs.forEach((dialog) => {
+          socket.emit("ROOM:LEAVE", dialog._id);
+        });
+
+        setMyDialogs(res.data.dialogs);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
 
   React.useEffect(() => {
     getUserData(userInfo.token!);
