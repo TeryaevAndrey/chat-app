@@ -12,12 +12,33 @@ import Footer from "../components/DIalog/Footer/Footer";
 import Header from "../components/DIalog/Header/Header";
 import { $fellowData } from "../../store/fellowData";
 import getUserData from "../../utils/getUserData";
+import { $myDialogs, setMyDialogs } from "../../store/myDialogs";
+import axios, { AxiosResponse } from "axios";
 
 const DialogPage: FC = () => {
   const userInfo = useStore($userInfo);
   const dialogInfo = useStore($dialogInfo);
   const { dialogId } = useParams();
-  const fellowData = useStore($fellowData);
+  const myDialogs = useStore($myDialogs);
+
+  React.useEffect(() => {
+    axios
+      .get(process.env.REACT_APP_PROXY + "/api/dialogs/get-my-dialogs", {
+        headers: {
+          Authorization: `Bearer ${userInfo.token}`,
+        },
+      })
+      .then((res: AxiosResponse) => {
+        myDialogs.forEach((dialog) => {
+          socket.emit("ROOM:LEAVE", dialog._id);
+        });
+
+        setMyDialogs(res.data.dialogs);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
 
   React.useEffect(() => {
     getUserData(userInfo.token!);
@@ -27,17 +48,13 @@ const DialogPage: FC = () => {
     if (dialogId !== "empty") {
       getDialogData(dialogId!, userInfo.token!);
     }
-  }, [dialogId]);
-
-  React.useEffect(() => {
-    socket.emit("ROOM:JOIN", dialogId);
-  }, [dialogId]);
+  }, []);
 
   React.useEffect(() => {
     if (dialogId && userInfo.token) {
       getMessages(dialogId, userInfo.token);
     }
-  }, [dialogId]);
+  }, [dialogId, userInfo.token]);
 
   React.useEffect(() => {
     if (userInfo.userId === dialogInfo.creator) {
@@ -50,6 +67,16 @@ const DialogPage: FC = () => {
       }
     }
   }, [dialogInfo, userInfo.userId]);
+
+  React.useEffect(() => {
+    const token = JSON.parse(localStorage.getItem("userInfo") || "{}").token;
+
+    socket.io.opts.query = {
+      token: token ? token : undefined,
+    };
+
+    socket.connect();
+  }, [userInfo]);
 
   return (
     <div className="h-screen flex flex-col justify-between overflow-hidden">

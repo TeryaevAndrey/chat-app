@@ -5,6 +5,7 @@ import { setAlertSuccessInfo } from "../../store/alerts/alertSuccess";
 import { $userInfo, setUserInfo } from "../../store/userInfo";
 import { setAlertErrorInfo } from "../../store/alerts/alertError";
 import { useStore } from "effector-react";
+import socket from "../../core/socket";
 
 const LoginForm: FC = () => {
   const navigate = useNavigate();

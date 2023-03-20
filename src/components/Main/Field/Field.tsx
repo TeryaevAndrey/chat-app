@@ -15,22 +15,21 @@ const Field: FC = () => {
   const containerRef = React.useRef<any>(null);
 
   React.useEffect(() => {
-    const message = () => {
-      socket.on("ROOM:NEW-MESSAGE", (message) => {
-        if (dialogId === message.dialog) {
-          return pushMessage(message);
-        }
-      });
-
-      return () => {
-        socket.off("connect");
-        socket.off("disconnect");
-        socket.off("pong");
-      };
+    const handleNewMessage = (message: any) => {
+      if (dialogId === message.dialog) {
+        pushMessage(message);
+      }
     };
 
-    message();
-  }, []);
+    socket.on("ROOM:NEW-MESSAGE", handleNewMessage);
+
+    return () => {
+      socket.off("ROOM:NEW-MESSAGE", handleNewMessage);
+      socket.off("connect");
+      socket.off("disconnect");
+      socket.off("pong");
+    };
+  }, [dialogId, socket]);
 
   React.useEffect(() => {
     const container = containerRef.current;
