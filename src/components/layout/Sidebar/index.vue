@@ -3,13 +3,13 @@ import { Search } from "@/components/ui";
 </script>
 
 <template>
-  <div class="root">
+  <div class="wrapper">
     <Search class="search" />
   </div>
 </template>
 
 <style scoped>
-.root {
+.wrapper {
   @apply bg-base-300 h-full w-[250px];
 }
 

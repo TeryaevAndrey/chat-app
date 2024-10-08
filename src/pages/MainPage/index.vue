@@ -4,12 +4,10 @@ import { Sidebar } from "@/components/layout";
 
 <template>
   <div class="root">
-    <Sidebar />
+    
   </div>
 </template>
 
 <style scoped>
-.root {
-  @apply flex h-full;
-}
+
 </style>
