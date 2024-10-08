@@ -10,6 +10,6 @@
 }
 
 .main-block {
-  @apply max-w-4xl xl:max-w-5xl w-full bg-base-200 rounded-3xl h-[80vh];
+  @apply max-w-4xl xl:max-w-5xl w-full bg-base-200 rounded-3xl h-[70vh] overflow-hidden;
 }
 </style>
