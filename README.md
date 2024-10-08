@@ -1,23 +1,5 @@
-Ссылка на backend: https://github.com/TeryaevAndrey/chat-backend
+# Vue 3 + TypeScript + Vite
 
-"Chat App" - это веб-приложение для обмена текстовыми сообщениями в режиме реального времени. Приложение основано на технологии Node.js и использует фреймворк Express для создания сервера. Для обеспечения взаимодействия между клиентом и сервером применяется WebSocket-протокол.
+This template should help get you started developing with Vue 3 and TypeScript in Vite. The template uses Vue 3 `<script setup>` SFCs, check out the [script setup docs](https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup) to learn more.
 
-При запуске приложения пользователь может найти товарища и начать переписку с ним.
-
-Для удобства использования приложения пользователь может открыть несколько окон чата в одном браузере и присоединиться к разным комнатам одновременно.
-
-Проект "Chat App" разработан с учетом современных требований. Кроме того, приложение имеет адаптивный дизайн и может корректно отображаться на различных устройствах, включая мобильные телефоны и планшеты.
-
-Frontend: 
-
-React
-TypeScript
-TailwingCss,
-
-Backend: 
-
-Node
-Express
-MongoDb
-
-Проект "Chat App" является открытым и доступен для использования и доработки.
+Learn more about the recommended Project Setup and IDE Support in the [Vue Docs TypeScript Guide](https://vuejs.org/guide/typescript/overview.html#project-setup).

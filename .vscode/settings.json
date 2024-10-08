@@ -1,9 +1,0 @@
-{
-  "editor.fontFamily": "Hack, monospace",
-  "files.autoSave": "afterDelay",
-  "scm.inputFontFamily": "Hack, monospace",
-  "scm.inputFontSize": 14,
-  "debug.console.fontFamily": "Hack, monospace",
-  "tailwindCSS.rootFontSize": 16,
-  "editor.fontSize": 16
-}
