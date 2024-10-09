@@ -3,9 +3,9 @@ import "@/shared/styles/index.css";
 import App from "./App.vue";
 import { router } from "@/shared/core";
 import Unicon from "vue-unicons";
-import { uniSetting, uniSun, uniMoon } from "vue-unicons/dist/icons";
+import { uniSetting, uniSun, uniMoon, uniMessage } from 'vue-unicons/dist/icons'
 
-Unicon.add([uniSetting, uniSun, uniMoon]);
+Unicon.add([uniSetting, uniSun, uniMoon, uniMessage])
 
 const app = createApp(App);
 app.use(router);
