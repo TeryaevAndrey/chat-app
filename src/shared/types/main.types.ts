@@ -1,2 +1,2 @@
-export type Themes = "light" | "dark";
+export type Themes = "emerald" | "dark";
 export type Languages = "ru" | "en";
