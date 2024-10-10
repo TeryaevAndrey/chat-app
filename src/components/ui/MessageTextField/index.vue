@@ -1,9 +1,11 @@
 <script setup lang="ts">
 import { ref } from "vue";
 import EmojiPicker from "vue3-emoji-picker";
+import { onClickOutside } from "@vueuse/core";
 
 const text = ref("");
 const isOpenEmojiPicker = ref(false);
+const emojiPickerRef = ref(null);
 
 const onChangeText = (e: Event) => {
   const { value } = <HTMLInputElement>e.target;
@@ -18,6 +20,8 @@ const onSelectEmoji = (emoji: { i: string }) => {
 const toggleOpenEmojiPicker = () => {
   isOpenEmojiPicker.value = !isOpenEmojiPicker.value;
 };
+
+onClickOutside(emojiPickerRef, () => (isOpenEmojiPicker.value = false));
 </script>
 
 <template>
@@ -40,8 +44,12 @@ const toggleOpenEmojiPicker = () => {
         </button>
 
         <EmojiPicker
+          ref="emojiPickerRef"
           class="absolute right-0 bottom-0 ease-out duration-200 opacity-0 pointer-events-none"
-          :class="{ 'opacity-100 bottom-[calc(100%+16px)]': isOpenEmojiPicker }"
+          :class="{
+            'opacity-100 bottom-[calc(100%+16px)] pointer-events-auto':
+              isOpenEmojiPicker,
+          }"
           :native="true"
           @select="onSelectEmoji"
         />
