@@ -16,6 +16,6 @@ import { MessageTextField } from "@/components/ui";
 
 <style scoped>
 .chat-wrapper {
-  @apply w-full h-full relative;
+  @apply w-full h-full fixed inset-0 bg-base-200 z-50 md:relative;
 }
 </style>

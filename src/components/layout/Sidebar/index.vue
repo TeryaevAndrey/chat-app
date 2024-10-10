@@ -4,7 +4,7 @@ import { UsersList } from "./components/widgets";
 </script>
 
 <template>
-  <div class="wrapper">
+  <div class="sidebar">
     <Search class="search" />
 
     <UsersList class="mt-8" />
@@ -12,11 +12,11 @@ import { UsersList } from "./components/widgets";
 </template>
 
 <style scoped>
-.wrapper {
-  @apply bg-base-300 h-full w-[250px] min-w-[250px];
+.sidebar {
+  @apply bg-base-300 pt-6 h-full w-full md:w-[250px] md:min-w-[250px];
 }
 
 .search {
-  @apply mx-6 mt-6 w-[calc(100%-48px)];
+  @apply mx-6 w-[calc(100%-48px)];
 }
 </style>
