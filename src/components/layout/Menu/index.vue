@@ -1,14 +1,12 @@
 <script setup lang="ts">
-import { LanguageButton, ThemeButton } from "@/components/ui";
+import { LanguageButton, SettingsButton, ThemeButton } from "@/components/ui";
 </script>
 
 <template>
   <div class="wrapper">
     <ThemeButton />
 
-    <button class="btn btn-square">
-      <unicon class="fill-base-content" name="setting"></unicon>
-    </button>
+    <SettingsButton />
     
     <LanguageButton />
   </div>

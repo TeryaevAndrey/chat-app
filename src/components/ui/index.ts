@@ -3,3 +3,4 @@ export { default as ThemeButton } from "./ThemeButton/index.vue";
 export { default as LanguageButton } from "./LanguageButton/index.vue";
 export { default as Message } from "./Message/index.vue";
 export { default as MessageTextField } from "./MessageTextField/index.vue";
+export { default as SettingsButton } from "./SettingsButton/index.vue";
